@@ -80,11 +80,11 @@ public class RSCLauncher {
     classLoader.init();
 
     final Class<?> clientClass = classLoader.loadClass("client");
-    final Object clientObject = Object.class.cast(clientClass.newInstance());
+    final Object clientObject = clientClass.newInstance();
     final Client client = Client.class.cast(clientObject);
     final Applet clientApplet = Applet.class.cast(client);
 
-    System.out.println(client.getRegionX());
+    System.out.println(client.getSkillNames()[7]);
 
     clientApplet.setStub(frame);
 

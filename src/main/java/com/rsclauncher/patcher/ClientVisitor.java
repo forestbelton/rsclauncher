@@ -20,14 +20,36 @@ public class ClientVisitor extends ClassVisitor {
 
   @Override
   public void visitEnd() {
-    final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getRegionX", "()I", null, null);
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getRegionX", "()I", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETSTATIC, "client", "vi", "I");
+      mv.visitInsn(IRETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
 
-    mv.visitCode();
-    mv.visitVarInsn(ALOAD, 0);
-    mv.visitFieldInsn(GETSTATIC, "client", "vi", "I");
-    mv.visitInsn(IRETURN);
-    mv.visitMaxs(2, 1);
-    mv.visitEnd();
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getQuestNames", "()[Ljava/lang/String;", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, "client", "Jj", "[Ljava/lang/String;");
+      mv.visitInsn(ARETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
+
+
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getSkillNames", "()[Ljava/lang/String;", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, "client", "Yh", "[Ljava/lang/String;");
+      mv.visitInsn(ARETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
 
     cv.visitEnd();
   }

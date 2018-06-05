@@ -12,5 +12,9 @@ public interface Client {
 
   public int getPlane();
 
+  public String[] getQuestNames();
+
+  public String[] getSkillNames();
+
 
 }
