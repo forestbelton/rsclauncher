@@ -1,5 +1,11 @@
 package com.rsclauncher;
 
+
+import com.rsclauncher.patcher.ClientVisitor;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,12 +15,14 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
+import static org.objectweb.asm.Opcodes.ASM4;
+
 public class RSCClassLoader extends ClassLoader {
 
   private final Map<String, byte[]> classes = new HashMap<>();
 
   public void init() throws IOException {
-    final JarInputStream jarInputStream = new JarInputStream(new FileInputStream(new File("rsclassic_860618473.jar")));
+    final JarInputStream jarInputStream = new JarInputStream(new FileInputStream(new File("rsclassic.jar")));
 
     JarEntry entry = null;
     while ((entry = jarInputStream.getNextJarEntry()) != null) {
@@ -33,7 +41,20 @@ public class RSCClassLoader extends ClassLoader {
         final byte[] classBytes = baos.toByteArray();
         baos.close();
 
-        classes.put(className, classBytes);
+        final ClassWriter classWriter = new ClassWriter(0);
+        ClassVisitor classVisitor;
+        if (className.equals("client")) {
+          classVisitor = new ClientVisitor(ASM4, new ClassVisitor(ASM4, classWriter) {});
+        } else {
+          classVisitor = new ClassVisitor(ASM4, classWriter) {};
+        }
+
+        final ClassReader classReader = new ClassReader(classBytes);
+        classReader.accept(classVisitor, 0);
+
+        final byte[] modifiedClassBytes = classWriter.toByteArray();
+
+        classes.put(className, modifiedClassBytes);
       }
     }
 

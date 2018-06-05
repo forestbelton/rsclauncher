@@ -1,5 +1,7 @@
 package com.rsclauncher;
 
+import com.rsclauncher.api.Client;
+
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;
@@ -78,7 +80,11 @@ public class RSCLauncher {
     classLoader.init();
 
     final Class<?> clientClass = classLoader.loadClass("client");
-    final Applet clientApplet = Applet.class.cast(clientClass.newInstance());
+    final Object clientObject = Object.class.cast(clientClass.newInstance());
+    final Client client = Client.class.cast(clientObject);
+    final Applet clientApplet = Applet.class.cast(client);
+
+    System.out.println(client.getValue());
 
     clientApplet.setStub(frame);
 
