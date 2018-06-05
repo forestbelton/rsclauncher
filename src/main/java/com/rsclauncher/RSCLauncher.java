@@ -1,3 +1,5 @@
+package com.rsclauncher;
+
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;
@@ -70,7 +72,7 @@ public class RSCLauncher {
   }
 
   public static void main(String[] args) throws Exception {
-    final RSCFrame frame = new RSCFrame("RSCLauncher");
+    final RSCFrame frame = new RSCFrame("com.rsclauncher.RSCLauncher");
 
     final Class<?> clientClass = ClassLoader.getSystemClassLoader().loadClass("client");
     final Applet clientApplet = Applet.class.cast(clientClass.newInstance());
