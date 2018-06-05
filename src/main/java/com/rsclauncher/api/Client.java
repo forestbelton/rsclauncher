@@ -2,6 +2,15 @@ package com.rsclauncher.api;
 
 public interface Client {
 
-  public int getValue();
+  public int getRegionX();
+
+  public int getRegionY();
+
+  public int getLocalRegionX();
+
+  public int getLocalRegionY();
+
+  public int getPlane();
+
 
 }

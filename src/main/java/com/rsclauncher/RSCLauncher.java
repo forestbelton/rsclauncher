@@ -84,7 +84,7 @@ public class RSCLauncher {
     final Client client = Client.class.cast(clientObject);
     final Applet clientApplet = Applet.class.cast(client);
 
-    System.out.println(client.getValue());
+    System.out.println(client.getRegionX());
 
     clientApplet.setStub(frame);
 
