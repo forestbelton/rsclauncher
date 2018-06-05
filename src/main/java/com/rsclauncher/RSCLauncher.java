@@ -74,7 +74,7 @@ public class RSCLauncher {
   }
 
   public static void main(String[] args) throws Exception {
-    final RSCFrame frame = new RSCFrame("com.rsclauncher.RSCLauncher");
+    final RSCFrame frame = new RSCFrame("RSCLauncher");
 
     final RSCClassLoader classLoader = new RSCClassLoader();
     classLoader.init();
