@@ -20,15 +20,15 @@ public class ClientVisitor extends ClassVisitor {
 
   @Override
   public void visitEnd() {
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getRegionX", "()I", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETSTATIC, "client", "vi", "I");
-      mv.visitInsn(IRETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+//    {
+//      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getRegionX", "()I", null, null);
+//      mv.visitCode();
+//      mv.visitVarInsn(ALOAD, 0);
+//      mv.visitFieldInsn(GETSTATIC, "client", "vi", "I");
+//      mv.visitInsn(IRETURN);
+//      mv.visitMaxs(2, 1);
+//      mv.visitEnd();
+//    }
 
     {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getQuestNames", "()[Ljava/lang/String;", null, null);
@@ -40,7 +40,6 @@ public class ClientVisitor extends ClassVisitor {
       mv.visitEnd();
     }
 
-
     {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getSkillNames", "()[Ljava/lang/String;", null, null);
       mv.visitCode();
@@ -50,6 +49,66 @@ public class ClientVisitor extends ClassVisitor {
       mv.visitMaxs(2, 1);
       mv.visitEnd();
     }
+
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getSkillLevels", "()[I", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, "client", "Ri", "[I");
+      mv.visitInsn(ARETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
+
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getSkillExperiences", "()[I", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, "client", "Vc", "[I");
+      mv.visitInsn(ARETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
+
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getLocalPlayer", "()Lcom/rslauncher/api/GameCharacter;", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, "client", "Hh", "Lcom/rslauncher/api/GameCharacter;");
+      mv.visitInsn(ARETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
+
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNearbyPlayers", "()[Lcom/rslauncher/api/GameCharacter;", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, "client", "Nj", "[Lcom/rslauncher/api/GameCharacter;");
+      mv.visitInsn(ARETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
+
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNpcs", "()[Lcom/rslauncher/api/GameCharacter;", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, "client", "Rg", "[Lcom/rslauncher/api/GameCharacter;");
+      mv.visitInsn(ARETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
+
+//    {
+//      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getEquippedItems", "()[I", null, null);
+//      mv.visitCode();
+//      mv.visitVarInsn(ALOAD, 0);
+//      mv.visitFieldInsn(GETFIELD, "client", "l", "[I");
+//      mv.visitInsn(IRETURN);
+//      mv.visitMaxs(2, 1);
+//      mv.visitEnd();
+//    }
 
     cv.visitEnd();
   }

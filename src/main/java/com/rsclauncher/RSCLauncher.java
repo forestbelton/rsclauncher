@@ -84,7 +84,7 @@ public class RSCLauncher {
     final Client client = Client.class.cast(clientObject);
     final Applet clientApplet = Applet.class.cast(client);
 
-    System.out.println(client.getSkillNames()[7]);
+    System.out.println(client.getSkillLevels()[0]);
 
     clientApplet.setStub(frame);
 

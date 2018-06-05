@@ -12,9 +12,23 @@ public interface Client {
 
   public int getPlane();
 
+
+
   public String[] getQuestNames();
 
   public String[] getSkillNames();
 
+  public int[] getSkillLevels();
+
+  public int[] getSkillExperiences();
+
+
+  public int[] getEquippedItems();
+
+  public GameCharacter getLocalPlayer();
+
+  public GameCharacter[] getNearbyPlayers();
+
+  public GameCharacter[] getNpcs();
 
 }
