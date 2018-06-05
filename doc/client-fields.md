@@ -1,3 +1,6 @@
+`client.class`
+==============
+
 |Obfuscated name|Deobfuscated name|
 |---------------|-----------------|
 |Jj             |questNames       |
