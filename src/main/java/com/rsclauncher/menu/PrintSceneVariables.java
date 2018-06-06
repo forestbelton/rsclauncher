@@ -71,6 +71,7 @@ public class PrintSceneVariables implements MenuItem {
       generator.writeEndObject();
       generator.flush();
 
+      System.out.println();
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     }

@@ -3,6 +3,7 @@ package com.rsclauncher;
 
 import com.rsclauncher.patcher.ClientPatcher;
 import com.rsclauncher.patcher.GameCharacterPatcher;
+import com.rsclauncher.patcher.ImageLoaderPatcher;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -49,6 +50,8 @@ public class RSCClassLoader extends ClassLoader {
           classVisitor = new ClientPatcher(ASM4, classWriter);
         } else if (className.equals("nb")) {
           classVisitor = new GameCharacterPatcher(ASM4, classWriter);
+        } else if (className.equals("i")) {
+          classVisitor = new ImageLoaderPatcher(ASM4, classWriter);
         } else {
           classVisitor = classWriter;
         }
