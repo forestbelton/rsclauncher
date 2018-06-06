@@ -7,6 +7,15 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class ClientVisitor extends ClassVisitor {
 
+  private static final String O_CLASS_NAME = "nb";
+  private static final String O_GET_QUEST_NAMES = "Jj";
+  private static final String O_GET_SKILL_NAMES = "Yh";
+  private static final String O_GET_SKILL_LEVELS = "Ri";
+  private static final String O_GET_SKILL_EXPERIENCES = "Vc";
+  private static final String O_GET_LOCAL_PLAYER = "Hh";
+  private static final String O_GET_NEARBY_PLAYERS = "Nj";
+  private static final String O_GET_NPCS = "Rg";
+
   public ClientVisitor(int i, ClassVisitor cv) {
     super(i, cv);
   }
@@ -34,7 +43,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getQuestNames", "()[Ljava/lang/String;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, "client", "Jj", "[Ljava/lang/String;");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_QUEST_NAMES, "[Ljava/lang/String;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
@@ -44,7 +53,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getSkillNames", "()[Ljava/lang/String;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, "client", "Yh", "[Ljava/lang/String;");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_SKILL_NAMES, "[Ljava/lang/String;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
@@ -54,7 +63,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getSkillLevels", "()[I", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, "client", "Ri", "[I");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_SKILL_LEVELS, "[I");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
@@ -64,7 +73,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getSkillExperiences", "()[I", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, "client", "Vc", "[I");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_SKILL_EXPERIENCES, "[I");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
@@ -74,7 +83,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getLocalPlayer", "()Lcom/rslauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, "client", "Hh", "Lcom/rslauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_LOCAL_PLAYER, "Lcom/rslauncher/api/GameCharacter;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
@@ -84,7 +93,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNearbyPlayers", "()[Lcom/rslauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, "client", "Nj", "[Lcom/rslauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_NEARBY_PLAYERS, "[Lcom/rslauncher/api/GameCharacter;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
@@ -94,7 +103,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNpcs", "()[Lcom/rslauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, "client", "Rg", "[Lcom/rslauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD,  O_CLASS_NAME, O_GET_NPCS, "[Lcom/rslauncher/api/GameCharacter;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();

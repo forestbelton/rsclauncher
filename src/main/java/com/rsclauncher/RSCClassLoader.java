@@ -44,6 +44,7 @@ public class RSCClassLoader extends ClassLoader {
 
         final ClassWriter classWriter = new ClassWriter(0);
         ClassVisitor classVisitor;
+
         if (className.equals("client")) {
           classVisitor = new ClientVisitor(ASM4, new ClassVisitor(ASM4, classWriter) {});
         } else if (className.equals("nb")) {
