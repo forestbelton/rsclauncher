@@ -7,12 +7,23 @@ import java.applet.AppletContext;
 import java.applet.AppletStub;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import javax.swing.Box;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class RSCLauncher {
+public class RSCLauncher implements ActionListener {
 
   public static class RSCFrame extends JFrame implements AppletStub {
 
@@ -92,21 +103,38 @@ public class RSCLauncher {
   }
 
   public static void main(String[] args) throws Exception {
-    final RSCFrame frame = new RSCFrame("RSCLauncher");
+    final RSCLauncher launcher = new RSCLauncher();
+    launcher.run();
+  }
 
+  private RSCFrame frame = null;
+
+  public void run() throws Exception {
+    frame = new RSCFrame("RSCLauncher");
+
+    // Set up menu
+    final JMenuBar menuBar = new JMenuBar();
+    final JMenu actionsMenu = new JMenu("Actions");
+    final JMenuItem debugHookItem = new JMenuItem("Debug hook");
+
+    debugHookItem.addActionListener(this);
+    actionsMenu.add(debugHookItem);
+    menuBar.add(actionsMenu);
+    frame.setJMenuBar(menuBar);
+
+    // Load client class and add to frame
     final RSCClassLoader classLoader = new RSCClassLoader();
     classLoader.init();
 
     final Class<?> clientClass = classLoader.loadClass("client");
-    final Object clientObject = clientClass.newInstance();
-    final Client client = Client.class.cast(clientObject);
-    final Applet clientApplet = Applet.class.cast(client);
+    final Applet clientApplet = Applet.class.cast(clientClass.newInstance());
+    final Client client = Client.class.cast(clientApplet);
 
     System.out.println(client.getSkillLevels()[0]);
 
     clientApplet.setStub(frame);
-
     frame.setContentPane(clientApplet);
+
     frame.getContentPane().setBackground(Color.BLACK);
     frame.getContentPane().setPreferredSize(new Dimension(512, 346));
 
@@ -118,5 +146,54 @@ public class RSCLauncher {
     clientApplet.start();
 
     new AppletThread(clientApplet).start();
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    //printStaticVariable("ab", "y");
+    //printStaticVariable("ab", "b");
+    //printStaticVariable("ab", "Fb");
+    //printStaticVariable("ab", "Qb");
+
+    final JTextField xField = new JTextField(5);
+    final JTextField yField = new JTextField(5);
+
+    final JPanel myPanel = new JPanel();
+    myPanel.add(new JLabel("Class:"));
+    myPanel.add(xField);
+    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+    myPanel.add(new JLabel("Field:"));
+    myPanel.add(yField);
+
+    final int result = JOptionPane.showConfirmDialog(null, myPanel,
+        "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+
+    if (result != JOptionPane.OK_OPTION) {
+      return;
+    }
+
+    printStaticVariable(xField.getText(), yField.getText());
+  }
+
+  private final void printStaticVariable(String className, String fieldName) {
+    try {
+      System.out.println(className + "::" + fieldName);
+
+      final Class<?> abClass = ClassLoader.getSystemClassLoader().loadClass(className);
+      final Field yField = abClass.getDeclaredField(fieldName);
+
+      yField.setAccessible(true);
+      final String[] yArray = (String[])yField.get(null);
+
+      System.out.println(yArray.length);
+      for (int i = 0; i < yArray.length; ++i) {
+        if (yArray[i] != null) {
+          System.out.println("[" + i + "] \"" + yArray[i] + "\"");
+        }
+      }
+
+    } catch (Exception ex) {
+      ex.printStackTrace(System.err);
+    }
   }
 }
