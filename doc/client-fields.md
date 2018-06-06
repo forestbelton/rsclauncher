@@ -50,3 +50,10 @@
 |---------------|-------------------|
 |a              |itemDescriptions   |
 
+`gb.class`
+==========
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|s              |itemNames          |
+
