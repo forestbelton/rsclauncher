@@ -51,8 +51,15 @@
 |---------------|-------------------|
 |a              |itemDescriptions   |
 
+`gb.class`
+=======
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|s              |itemNames          |
+
 `ia.class` (`World`)
-==========
+=======
 
 |Obfuscated name|Deobfuscated name  |
 |---------------|-------------------|
@@ -63,6 +70,4 @@
 
 |Obfuscated name|Deobfuscated name  |
 |---------------|-------------------|
-|              |   |
-
-
+|               |                   |
