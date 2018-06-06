@@ -29,43 +29,30 @@ public class PrintClientData implements MenuItem {
 
       generator.writeStartObject();
 
-      {
-        generator.writeFieldName("localPlayer");
+      generator.writeFieldName("localPlayer");
+      writeGameCharacter(generator, client.getLocalPlayer());
 
-        writeGameCharacter(generator, client.getLocalPlayer());
-      }
-
-      {
-        GameCharacter[] nearbyPlayers = client.getNearbyPlayers();
-
-        generator.writeFieldName("nearbyPlayers");
-        generator.writeStartArray();
-
-        for (int i = 0; i < nearbyPlayers.length; i++) {
-          // TODO: Write null in arrays or not? Otherwise might be real huge
-          if (nearbyPlayers[i] != null) {
-            writeGameCharacter(generator, nearbyPlayers[i]);
-          }
+      GameCharacter[] nearbyPlayers = client.getNearbyPlayers();
+      generator.writeFieldName("nearbyPlayers");
+      generator.writeStartArray();
+      for (int i = 0; i < nearbyPlayers.length; i++) {
+        // TODO: Write null in arrays or not? Otherwise might be real huge
+        if (nearbyPlayers[i] != null) {
+          writeGameCharacter(generator, nearbyPlayers[i]);
         }
-
-        generator.writeEndArray();
       }
+      generator.writeEndArray();
 
-      {
-        GameCharacter[] npcs = client.getNpcs();
-
-        generator.writeFieldName("npcs");
-        generator.writeStartArray();
-
-        for (int i = 0; i < npcs.length; i++) {
-          // TODO: Write null in arrays or not? Otherwise might be real huge
-          if (npcs[i] != null) {
-            writeGameCharacter(generator, npcs[i]);
-          }
+      GameCharacter[] npcs = client.getNpcs();
+      generator.writeFieldName("npcs");
+      generator.writeStartArray();
+      for (int i = 0; i < npcs.length; i++) {
+        // TODO: Write null in arrays or not? Otherwise might be real huge
+        if (npcs[i] != null) {
+          writeGameCharacter(generator, npcs[i]);
         }
-
-        generator.writeEndArray();
       }
+      generator.writeEndArray();
 
       generator.writeEndObject();
       generator.flush();
