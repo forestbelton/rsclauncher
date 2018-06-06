@@ -1,7 +1,7 @@
 package com.rsclauncher;
 
-import com.rsclauncher.api.Client;
-
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;
@@ -10,10 +10,14 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,7 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class RSCLauncher implements ActionListener {
+public class RSCLauncher {
 
   public static class RSCFrame extends JFrame implements AppletStub {
 
@@ -107,6 +111,7 @@ public class RSCLauncher implements ActionListener {
     launcher.run();
   }
 
+  private Object client = null;
   private RSCFrame frame = null;
   private RSCClassLoader classLoader = null;
 
@@ -115,11 +120,14 @@ public class RSCLauncher implements ActionListener {
 
     // Set up menu
     final JMenuBar menuBar = new JMenuBar();
-    final JMenu actionsMenu = new JMenu("Actions");
-    final JMenuItem debugHookItem = new JMenuItem("Debug hook");
+    final JMenu actionsMenu = new JMenu("Debug");
+    final JMenuItem printStaticVarItem = new JMenuItem("Print static variable");
+    final JMenuItem printSceneVarItem = new JMenuItem("Print scene variable");
 
-    debugHookItem.addActionListener(this);
-    actionsMenu.add(debugHookItem);
+    printSceneVarItem.addActionListener(new PrintSceneVariables());
+    printStaticVarItem.addActionListener(new PrintStaticVariables());
+    actionsMenu.add(printStaticVarItem);
+    actionsMenu.add(printSceneVarItem);
     menuBar.add(actionsMenu);
     frame.setJMenuBar(menuBar);
 
@@ -128,11 +136,12 @@ public class RSCLauncher implements ActionListener {
     classLoader.init();
 
     final Class<?> clientClass = classLoader.loadClass("client");
-    final Object clientObject = clientClass.newInstance();
-    final Applet clientApplet = Applet.class.cast(clientObject);
-    final Client client = Client.class.cast(clientObject);
 
-    System.out.println(client.getSkillLevels()[0]);
+    client = clientClass.newInstance();
+
+    final Applet clientApplet = Applet.class.cast(client);
+    // final Client client = Client.class.cast(client);
+    // System.out.println(client.getSkillLevels()[0]);
 
     clientApplet.setStub(frame);
     frame.setContentPane(clientApplet);
@@ -150,52 +159,114 @@ public class RSCLauncher implements ActionListener {
     new AppletThread(clientApplet).start();
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    //printStaticVariable("ab", "y");
-    //printStaticVariable("ab", "b");
-    //printStaticVariable("ab", "Fb");
-    //printStaticVariable("ab", "Qb");
+  public class PrintStaticVariables implements ActionListener {
 
-    final JTextField xField = new JTextField(5);
-    final JTextField yField = new JTextField(5);
+    final JTextField classNameField;
+    final JTextField fieldNameField;
+    final JPanel inputForm;
 
-    final JPanel myPanel = new JPanel();
-    myPanel.add(new JLabel("Class:"));
-    myPanel.add(xField);
-    myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-    myPanel.add(new JLabel("Field:"));
-    myPanel.add(yField);
+    public PrintStaticVariables() {
+      classNameField = new JTextField(10);
+      fieldNameField = new JTextField(10);
 
-    final int result = JOptionPane.showConfirmDialog(null, myPanel,
-        "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+      inputForm = new JPanel();
+      inputForm.setLayout(new BoxLayout(inputForm, BoxLayout.PAGE_AXIS));
 
-    if (result != JOptionPane.OK_OPTION) {
-      return;
+      final Box classBox = Box.createHorizontalBox();
+      classBox.add(new JLabel("Class:"));
+      classBox.add(classNameField);
+      inputForm.add(classBox);
+      inputForm.add(Box.createVerticalStrut(15)); // a spacer
+
+      final Box fieldBox = Box.createHorizontalBox();
+      fieldBox.add(new JLabel("Field:"));
+      fieldBox.add(fieldNameField);
+      inputForm.add(fieldBox);
     }
 
-    printStaticVariable(xField.getText(), yField.getText());
-  }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      final int result = JOptionPane.showConfirmDialog(null, inputForm,
+          "Specify the static variable to print", JOptionPane.OK_CANCEL_OPTION);
 
-  private final void printStaticVariable(String className, String fieldName) {
-    try {
-      System.out.println(className + "::" + fieldName);
-
-      final Class<?> abClass = classLoader.loadClass(className);
-      final Field yField = abClass.getDeclaredField(fieldName);
-
-      yField.setAccessible(true);
-      final String[] yArray = (String[])yField.get(null);
-
-      System.out.println(yArray.length);
-      for (int i = 0; i < yArray.length; ++i) {
-        if (yArray[i] != null) {
-          System.out.println("[" + i + "] \"" + yArray[i] + "\"");
-        }
+      if (result != JOptionPane.OK_OPTION) {
+        return;
       }
 
-    } catch (Exception ex) {
-      ex.printStackTrace(System.err);
+      try {
+        final String className = classNameField.getText();
+        final String fieldName = fieldNameField.getText();
+
+        System.out.println(className + "::" + fieldName);
+
+        final Class<?> abClass = classLoader.loadClass(className);
+        final Field yField = abClass.getDeclaredField(fieldName);
+
+        yField.setAccessible(true);
+        final String[] yArray = (String[])yField.get(null);
+
+        System.out.println(yArray.length);
+        for (int i = 0; i < yArray.length; ++i) {
+          if (yArray[i] != null) {
+            System.out.println("[" + i + "] \"" + yArray[i] + "\"");
+          }
+        }
+
+      } catch (Exception ex) {
+        ex.printStackTrace(System.err);
+      }
+    }
+  }
+
+  public class PrintSceneVariables implements ActionListener {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        final Class<?> sceneClass = classLoader.loadClass("p");
+        final Field[] sceneFields = sceneClass.getDeclaredFields();
+        final Class<?> clientClass = client.getClass();
+        final Field clientSceneField = clientClass.getDeclaredField("nf");
+
+        clientSceneField.setAccessible(true);
+        final Object scene = clientSceneField.get(client);
+
+        if (scene == null) {
+          System.err.println("Scene not initialized!");
+          return;
+        }
+
+        final HashMap<String, Integer> integerVariables = new HashMap<>();
+
+        Stream.of(sceneFields)
+            .filter(field -> (field.getModifiers() & Modifier.STATIC) == 0)
+            .filter(field -> field.getType().isAssignableFrom(int.class))
+            .forEach(field -> {
+              field.setAccessible(true);
+
+              try {
+                integerVariables.put(field.getName(), field.getInt(scene));
+              } catch (IllegalAccessException ex) {
+                ex.printStackTrace(System.err);
+              }
+            });
+
+        final JsonFactory factory = new JsonFactory();
+        final JsonGenerator generator = factory.createGenerator(System.out);
+
+        generator.writeStartObject();
+        for (Map.Entry<String, Integer> integerVariable : integerVariables.entrySet()) {
+          generator.writeNumberField(
+              integerVariable.getKey(),
+              integerVariable.getValue()
+          );
+        }
+        generator.writeEndObject();
+        generator.flush();
+
+      } catch (Exception ex) {
+        ex.printStackTrace(System.err);
+      }
     }
   }
 }
