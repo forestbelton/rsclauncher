@@ -58,6 +58,7 @@
 |Obfuscated name|Deobfuscated name  |
 |---------------|-------------------|
 |s              |itemNames          |
+|u              |model              |
 
 `ia.class` (`World`)
 =======
@@ -75,7 +76,6 @@
 
 `p.class` (`Scene`)
 =========
-
 
 |Obfuscated name|Deobfuscated name  |
 |---------------|-------------------|
