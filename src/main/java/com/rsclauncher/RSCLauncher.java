@@ -53,7 +53,7 @@ public class RSCLauncher {
     final Object client = clientClass.newInstance();
 
     // Set up menu
-    JMenuBar menuBar = MenuBarFactory.newMenuBar(client, classLoader);
+    final JMenuBar menuBar = MenuBarFactory.newMenuBar(client, classLoader);
     frame.setJMenuBar(menuBar);
 
     final Applet clientApplet = Applet.class.cast(client);
