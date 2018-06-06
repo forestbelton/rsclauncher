@@ -5,7 +5,7 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class GameCharacterVisitor extends ClassVisitor {
+public class GameCharacterPatcher extends ClassVisitor {
 
   private static final String O_CLASS_NAME = "nb";
   private static final String O_GET_NAME = "d";
@@ -17,7 +17,7 @@ public class GameCharacterVisitor extends ClassVisitor {
   private static final String O_GET_EQUIPPED_ITEMS = "l";
   private static final String O_GET_OVERHEAD_MESSAGE = "q";
 
-  public GameCharacterVisitor(int i, ClassVisitor cv) {
+  public GameCharacterPatcher(int i, ClassVisitor cv) {
     super(i, cv);
   }
 
