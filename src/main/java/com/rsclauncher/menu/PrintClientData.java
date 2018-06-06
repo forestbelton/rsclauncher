@@ -7,7 +7,6 @@ import com.rsclauncher.api.GameCharacter;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 public class PrintClientData implements MenuItem {
 
