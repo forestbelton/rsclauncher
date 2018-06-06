@@ -73,6 +73,24 @@ public class RSCLauncher {
     return new String(out);
   }
 
+  public static class AppletThread extends Thread {
+
+    public final Applet applet;
+
+    public AppletThread(Applet applet) {
+      this.applet = applet;
+    }
+
+    @Override
+    public void run() {
+      while (true) {
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException ex) {}
+      }
+    }
+  }
+
   public static void main(String[] args) throws Exception {
     final RSCFrame frame = new RSCFrame("RSCLauncher");
 
@@ -98,5 +116,7 @@ public class RSCLauncher {
 
     clientApplet.init();
     clientApplet.start();
+
+    new AppletThread(clientApplet).start();
   }
 }
