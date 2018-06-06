@@ -18,6 +18,7 @@
 |Hh             |localPlayer      |
 |l              |equippedItems    |
 |Rg             |npcs (?)         |
+|zd             |world            |
 
 `nb.class` (`GameCharacter`)
 ==========
@@ -49,4 +50,19 @@
 |Obfuscated name|Deobfuscated name  |
 |---------------|-------------------|
 |a              |itemDescriptions   |
+
+`ia.class` (`World`)
+==========
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|               |                   |
+
+`sb.class` (`GameModel`)
+==========
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|              |   |
+
 
