@@ -37,13 +37,31 @@ public class PrintClientData implements MenuItem {
       }
 
       {
+        GameCharacter[] nearbyPlayers = client.getNearbyPlayers();
+
         generator.writeFieldName("nearbyPlayers");
         generator.writeStartArray();
 
-        for (int i = 0; i < client.getNearbyPlayers().length; i++) {
+        for (int i = 0; i < nearbyPlayers.length; i++) {
           // TODO: Write null in arrays or not? Otherwise might be real huge
-          if (client.getNearbyPlayers()[i] != null) {
-            writeGameCharacter(generator, client.getNearbyPlayers()[i]);
+          if (nearbyPlayers[i] != null) {
+            writeGameCharacter(generator, nearbyPlayers[i]);
+          }
+        }
+
+        generator.writeEndArray();
+      }
+
+      {
+        GameCharacter[] npcs = client.getNpcs();
+
+        generator.writeFieldName("npcs");
+        generator.writeStartArray();
+
+        for (int i = 0; i < npcs.length; i++) {
+          // TODO: Write null in arrays or not? Otherwise might be real huge
+          if (npcs[i] != null) {
+            writeGameCharacter(generator, npcs[i]);
           }
         }
 
