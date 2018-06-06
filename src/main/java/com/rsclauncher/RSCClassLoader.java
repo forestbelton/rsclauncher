@@ -1,8 +1,8 @@
 package com.rsclauncher;
 
 
-import com.rsclauncher.patcher.ClientVisitor;
-import com.rsclauncher.patcher.GameCharacterVisitor;
+import com.rsclauncher.patcher.ClientPatcher;
+import com.rsclauncher.patcher.GameCharacterPatcher;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -46,9 +46,9 @@ public class RSCClassLoader extends ClassLoader {
         ClassVisitor classVisitor;
 
         if (className.equals("client")) {
-          classVisitor = new ClientVisitor(ASM4, new ClassVisitor(ASM4, classWriter) {});
+          classVisitor = new ClientPatcher(ASM4, new ClassVisitor(ASM4, classWriter) {});
         } else if (className.equals("nb")) {
-          classVisitor = new GameCharacterVisitor(ASM4, new ClassVisitor(ASM4, classWriter) {}) {};
+          classVisitor = new GameCharacterPatcher(ASM4, new ClassVisitor(ASM4, classWriter) {}) {};
         } else {
           classVisitor = new ClassVisitor(ASM4, classWriter) {};
         }

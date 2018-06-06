@@ -20,6 +20,7 @@
 |Rg             |npcs (?)         |
 |zd             |world            |
 |nf             |scene            |
+|W              |jagexLogo        |
 
 `nb.class` (`GameCharacter`)
 ==========

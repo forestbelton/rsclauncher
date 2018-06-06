@@ -2,9 +2,12 @@ package com.rsclauncher.api;
 
 public interface GameCharacter {
 
-  public int getName();
+  public String getAccountName();
 
-  public int getAccountName();
+
+
+
+  public String getName();
 
   public int getCombatLevel();
 

@@ -5,7 +5,7 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class ClientVisitor extends ClassVisitor {
+public class ClientPatcher extends ClassVisitor {
 
   private static final String O_CLASS_NAME = "client";
   private static final String O_GET_QUEST_NAMES = "Jj";
@@ -16,7 +16,7 @@ public class ClientVisitor extends ClassVisitor {
   private static final String O_GET_NEARBY_PLAYERS = "Nj";
   private static final String O_GET_NPCS = "Rg";
 
-  public ClientVisitor(int i, ClassVisitor cv) {
+  public ClientPatcher(int i, ClassVisitor cv) {
     super(i, cv);
   }
 
@@ -83,7 +83,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getLocalPlayer", "()Lcom/rsclauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_LOCAL_PLAYER, "Lcom/rsclauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_LOCAL_PLAYER, "Lnb;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
@@ -93,7 +93,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNearbyPlayers", "()[Lcom/rsclauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_NEARBY_PLAYERS, "[Lcom/rsclauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_NEARBY_PLAYERS, "[Lnb;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
@@ -103,7 +103,7 @@ public class ClientVisitor extends ClassVisitor {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNpcs", "()[Lcom/rsclauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD,  O_CLASS_NAME, O_GET_NPCS, "[Lcom/rsclauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD,  O_CLASS_NAME, O_GET_NPCS, "[Lnb;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();

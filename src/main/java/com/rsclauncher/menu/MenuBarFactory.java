@@ -1,5 +1,7 @@
 package com.rsclauncher.menu;
 
+import com.rsclauncher.api.Client;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JMenu;
@@ -13,7 +15,8 @@ public class MenuBarFactory {
 
     final List<MenuItem> menuItems = Arrays.asList(
         new PrintSceneVariables(client, classLoader),
-        new PrintStaticVariable(classLoader)
+        new PrintStaticVariable(classLoader),
+        new PrintClientData((Client) client)
     );
 
     menuItems.forEach(menuItem -> {
