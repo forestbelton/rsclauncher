@@ -50,7 +50,7 @@ public class RSCClassLoader extends ClassLoader {
         } else if (className.equals("nb")) {
           classVisitor = new GameCharacterPatcher(ASM4, classWriter);
         } else {
-          classVisitor = new ClassVisitor(ASM4, classWriter) {};
+          classVisitor = classWriter;
         }
 
         final ClassReader classReader = new ClassReader(classBytes);
