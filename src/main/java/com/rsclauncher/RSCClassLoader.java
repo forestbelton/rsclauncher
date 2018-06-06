@@ -46,9 +46,9 @@ public class RSCClassLoader extends ClassLoader {
         ClassVisitor classVisitor;
 
         if (className.equals("client")) {
-          classVisitor = new ClientPatcher(ASM4, new ClassVisitor(ASM4, classWriter) {});
+          classVisitor = new ClientPatcher(ASM4, classWriter);
         } else if (className.equals("nb")) {
-          classVisitor = new GameCharacterPatcher(ASM4, new ClassVisitor(ASM4, classWriter) {}) {};
+          classVisitor = new GameCharacterPatcher(ASM4, classWriter);
         } else {
           classVisitor = new ClassVisitor(ASM4, classWriter) {};
         }
