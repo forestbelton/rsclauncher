@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class RSCFrame extends JFrame implements AppletStub {
 
-  private static final int world = 2;
+  private static final int GAME_WORLD = 2;
   private static final HashMap<String, String> gameParameters = new HashMap<>();
 
   static {
@@ -35,7 +35,7 @@ public class RSCFrame extends JFrame implements AppletStub {
   @Override
   public URL getCodeBase() {
     try {
-      return new URL("http://classic" + world + ".runescape.com/");
+      return new URL("http://classic" + GAME_WORLD + ".runescape.com/");
     } catch (MalformedURLException ex) {
       return null;
     }

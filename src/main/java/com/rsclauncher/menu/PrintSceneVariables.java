@@ -11,6 +11,9 @@ import java.util.stream.Stream;
 
 public class PrintSceneVariables implements MenuItem {
 
+  private final String SCENE_CLASS_NAME = "p";
+  private final String CLIENT_SCENE_FIELD_NAME = "nf";
+
   private final Object client;
   private final ClassLoader classLoader;
 
@@ -27,10 +30,10 @@ public class PrintSceneVariables implements MenuItem {
   @Override
   public void actionPerformed(ActionEvent e) {
     try {
-      final Class<?> sceneClass = classLoader.loadClass("p");
+      final Class<?> sceneClass = classLoader.loadClass(SCENE_CLASS_NAME);
       final Field[] sceneFields = sceneClass.getDeclaredFields();
       final Class<?> clientClass = client.getClass();
-      final Field clientSceneField = clientClass.getDeclaredField("nf");
+      final Field clientSceneField = clientClass.getDeclaredField(CLIENT_SCENE_FIELD_NAME);
 
       clientSceneField.setAccessible(true);
       final Object scene = clientSceneField.get(client);
