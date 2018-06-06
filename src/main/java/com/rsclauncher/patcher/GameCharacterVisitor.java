@@ -35,7 +35,7 @@ public class GameCharacterVisitor extends ClassVisitor {
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
       mv.visitFieldInsn(GETFIELD, O_CLASS_NAME,  O_GET_NAME, "Ljava/lang/String;");
-      mv.visitInsn(IRETURN);
+      mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
     }
@@ -95,7 +95,7 @@ public class GameCharacterVisitor extends ClassVisitor {
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
       mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_EQUIPPED_ITEMS, "[I");
-      mv.visitInsn(IRETURN);
+      mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
     }
@@ -105,7 +105,7 @@ public class GameCharacterVisitor extends ClassVisitor {
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
       mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_OVERHEAD_MESSAGE, "Ljava/lang/String;");
-      mv.visitInsn(IRETURN);
+      mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
     }

@@ -7,7 +7,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class ClientVisitor extends ClassVisitor {
 
-  private static final String O_CLASS_NAME = "nb";
+  private static final String O_CLASS_NAME = "client";
   private static final String O_GET_QUEST_NAMES = "Jj";
   private static final String O_GET_SKILL_NAMES = "Yh";
   private static final String O_GET_SKILL_LEVELS = "Ri";
@@ -80,30 +80,30 @@ public class ClientVisitor extends ClassVisitor {
     }
 
     {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getLocalPlayer", "()Lcom/rslauncher/api/GameCharacter;", null, null);
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getLocalPlayer", "()Lcom/rsclauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_LOCAL_PLAYER, "Lcom/rslauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_LOCAL_PLAYER, "Lcom/rsclauncher/api/GameCharacter;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
     }
 
     {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNearbyPlayers", "()[Lcom/rslauncher/api/GameCharacter;", null, null);
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNearbyPlayers", "()[Lcom/rsclauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_NEARBY_PLAYERS, "[Lcom/rslauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_NEARBY_PLAYERS, "[Lcom/rsclauncher/api/GameCharacter;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
     }
 
     {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNpcs", "()[Lcom/rslauncher/api/GameCharacter;", null, null);
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNpcs", "()[Lcom/rsclauncher/api/GameCharacter;", null, null);
       mv.visitCode();
       mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD,  O_CLASS_NAME, O_GET_NPCS, "[Lcom/rslauncher/api/GameCharacter;");
+      mv.visitFieldInsn(GETFIELD,  O_CLASS_NAME, O_GET_NPCS, "[Lcom/rsclauncher/api/GameCharacter;");
       mv.visitInsn(ARETURN);
       mv.visitMaxs(2, 1);
       mv.visitEnd();
