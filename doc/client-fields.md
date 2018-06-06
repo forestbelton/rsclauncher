@@ -35,3 +35,18 @@
 |z              |damageTaken          |
 |r              |maxHealth            |
 |o              |currentHealth        |
+
+`ab.class`
+==========
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|b              |objectDescriptions |
+
+`b.class`
+=========
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|a              |itemDescriptions   |
+
