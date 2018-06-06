@@ -108,6 +108,7 @@ public class RSCLauncher implements ActionListener {
   }
 
   private RSCFrame frame = null;
+  private RSCClassLoader classLoader = null;
 
   public void run() throws Exception {
     frame = new RSCFrame("RSCLauncher");
@@ -123,12 +124,13 @@ public class RSCLauncher implements ActionListener {
     frame.setJMenuBar(menuBar);
 
     // Load client class and add to frame
-    final RSCClassLoader classLoader = new RSCClassLoader();
+    classLoader = new RSCClassLoader();
     classLoader.init();
 
     final Class<?> clientClass = classLoader.loadClass("client");
-    final Applet clientApplet = Applet.class.cast(clientClass.newInstance());
-    final Client client = Client.class.cast(clientApplet);
+    final Object clientObject = clientClass.newInstance();
+    final Applet clientApplet = Applet.class.cast(clientObject);
+    final Client client = Client.class.cast(clientObject);
 
     System.out.println(client.getSkillLevels()[0]);
 
@@ -179,7 +181,7 @@ public class RSCLauncher implements ActionListener {
     try {
       System.out.println(className + "::" + fieldName);
 
-      final Class<?> abClass = ClassLoader.getSystemClassLoader().loadClass(className);
+      final Class<?> abClass = classLoader.loadClass(className);
       final Field yField = abClass.getDeclaredField(fieldName);
 
       yField.setAccessible(true);
