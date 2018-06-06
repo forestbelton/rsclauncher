@@ -19,6 +19,7 @@
 |l              |equippedItems    |
 |Rg             |npcs (?)         |
 |zd             |world            |
+|nf             |scene            |
 
 `nb.class` (`GameCharacter`)
 ==========
@@ -67,6 +68,14 @@
 
 `sb.class` (`GameModel`)
 ==========
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|               |                   |
+
+`p.class` (`Scene`)
+=========
+
 
 |Obfuscated name|Deobfuscated name  |
 |---------------|-------------------|
