@@ -47,8 +47,11 @@ public class PrintClientData implements MenuItem {
       generator.writeFieldName("npcs");
       generator.writeStartArray();
       for (int i = 0; i < npcs.length; i++) {
+        final boolean validNpc = npcs[i] != null
+            && npcs[i].getNpcId() != 0;
+
         // TODO: Write null in arrays or not? Otherwise might be real huge
-        if (npcs[i] != null) {
+        if (validNpc) {
           writeGameCharacter(generator, npcs[i]);
         }
       }
