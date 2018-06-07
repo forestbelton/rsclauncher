@@ -21,6 +21,8 @@
 |zd             |world            |
 |nf             |scene            |
 |W              |jagexLogo        |
+|kk             |localRegionX     |
+|lc             |localRegionY     |
 
 `nb.class` (`GameCharacter`)
 ==========
@@ -81,3 +83,12 @@
 |Obfuscated name|Deobfuscated name  |
 |---------------|-------------------|
 |               |                   |
+
+`mb.class` (`ClientStream`)
+===========================
+
+`ja.class` (`Packet`)
+=====================
+
+`vb.class` (`GameShell`)
+========================

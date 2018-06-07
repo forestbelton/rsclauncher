@@ -9,15 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class PrintSceneVariables implements MenuItem {
-
-  private final String SCENE_CLASS_NAME = "p";
-  private final String CLIENT_SCENE_FIELD_NAME = "nf";
+public class PrintClientVariables implements MenuItem {
 
   private final Object client;
   private final ClassLoader classLoader;
 
-  public PrintSceneVariables(Object client, ClassLoader classLoader) {
+  public PrintClientVariables(Object client, ClassLoader classLoader) {
     this.client = client;
     this.classLoader = classLoader;
   }
@@ -30,29 +27,19 @@ public class PrintSceneVariables implements MenuItem {
   @Override
   public void actionPerformed(ActionEvent e) {
     try {
-      final Class<?> sceneClass = classLoader.loadClass(SCENE_CLASS_NAME);
-      final Field[] sceneFields = sceneClass.getDeclaredFields();
       final Class<?> clientClass = client.getClass();
-      final Field clientSceneField = clientClass.getDeclaredField(CLIENT_SCENE_FIELD_NAME);
-
-      clientSceneField.setAccessible(true);
-      final Object scene = clientSceneField.get(client);
-
-      if (scene == null) {
-        System.err.println("Scene not initialized!");
-        return;
-      }
+      final Field[] clientFields = clientClass.getDeclaredFields();
 
       final HashMap<String, Integer> integerVariables = new HashMap<>();
 
-      Stream.of(sceneFields)
+      Stream.of(clientFields)
           .filter(field -> (field.getModifiers() & Modifier.STATIC) == 0)
           .filter(field -> field.getType().isAssignableFrom(int.class))
           .forEach(field -> {
             field.setAccessible(true);
 
             try {
-              integerVariables.put(field.getName(), field.getInt(scene));
+              integerVariables.put(field.getName(), field.getInt(client));
             } catch (IllegalAccessException ex) {
               ex.printStackTrace(System.err);
             }

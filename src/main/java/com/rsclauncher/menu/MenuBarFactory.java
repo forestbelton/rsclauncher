@@ -16,7 +16,9 @@ public class MenuBarFactory {
     final List<MenuItem> menuItems = Arrays.asList(
         new PrintSceneVariables(client, classLoader),
         new PrintStaticVariable(classLoader),
-        new PrintClientData((Client) client)
+        new PrintClientData((Client) client),
+        new SetClientVariable(client),
+        new PrintClientVariables(client, classLoader)
     );
 
     menuItems.forEach(menuItem -> {
