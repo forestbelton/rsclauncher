@@ -6,15 +6,16 @@ public interface Client {
 
   public int getRegionY();
 
-  public int getLocalRegionX();
-
-  public int getLocalRegionY();
-
   public int getPlane();
 
   public int[] getEquippedItems();
 
 
+
+
+  public int getLocalRegionX();
+
+  public int getLocalRegionY();
 
   public String[] getQuestNames();
 
