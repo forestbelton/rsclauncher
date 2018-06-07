@@ -1,5 +1,6 @@
 package com.rsclauncher;
 
+import com.rsclauncher.api.Client;
 import com.rsclauncher.menu.MenuBarFactory;
 import java.applet.Applet;
 import java.awt.Color;
@@ -79,8 +80,37 @@ public class RSCLauncher {
     }
   }
 
-  // client.Gf = cameraRotation
+  public static class UpdateCoordsThread extends Thread {
 
+    private final Client client;
+    private final JLabel coordLabel;
+
+    public UpdateCoordsThread(Client client, JLabel coordLabel) {
+      this.client = client;
+      this.coordLabel = coordLabel;
+    }
+
+    @Override
+    public void run() {
+      while (true) {
+        try {
+          Thread.sleep(100);
+
+          final String coordText = String.format("(%d, %d)", client.getLocalRegionX(), client.getLocalRegionY());
+
+          this.coordLabel.setText(coordText);
+
+          final int textWidth = 100;
+          final int textHeight = (int)Math.ceil(coordLabel.getPreferredSize().getHeight());
+
+          this.coordLabel.setBounds(0, 0, textWidth, textHeight);
+
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    }
+  }
 
   public static void main(String[] args) throws Exception {
     final RSCLauncher launcher = new RSCLauncher();
@@ -123,6 +153,8 @@ public class RSCLauncher {
       ex.printStackTrace();
     }
 
+    final Client clientObject = Client.class.cast(client);
+
     // Set up menu
     final JMenuBar menuBar = MenuBarFactory.newMenuBar(client, classLoader);
     frame.setJMenuBar(menuBar);
@@ -131,7 +163,7 @@ public class RSCLauncher {
     clientApplet.setStub(frame);
     clientApplet.setBounds(0, 0, 512, 346);
 
-    final JLabel coordLabel = new JLabel("(0, 0)");
+    final JLabel coordLabel = new JLabel("(0,0)");
     coordLabel.setForeground(Color.black);
     coordLabel.setBackground(Color.black);
     coordLabel.setBounds(0, 0, (int)coordLabel.getPreferredSize().getWidth(), (int)coordLabel.getPreferredSize().getHeight());
@@ -140,9 +172,6 @@ public class RSCLauncher {
 
     layeredPane.add(clientApplet, new Integer(2), 1);
     layeredPane.add(coordLabel, new Integer(2),0);
-
-    // final Client client = Client.class.cast(client);
-    // System.out.println(client.getSkillLevels()[0]);
 
     frame.setContentPane(layeredPane);
     frame.getContentPane().setBackground(Color.BLACK);
@@ -156,5 +185,6 @@ public class RSCLauncher {
     clientApplet.start();
 
     new ClientDebugThread(client).start();
+    new UpdateCoordsThread(clientObject, coordLabel).start();
   }
 }
