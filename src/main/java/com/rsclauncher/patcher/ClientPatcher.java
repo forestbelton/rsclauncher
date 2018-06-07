@@ -10,6 +10,8 @@ public class ClientPatcher extends ClassVisitor {
   private static final String O_CLASS_NAME = "client";
   private static final String O_GET_LOCAL_REGION_X = "kk";
   private static final String O_GET_LOCAL_REGION_Y = "lc";
+  private static final String O_GET_REGION_X = "Ed";
+  private static final String O_GET_REGION_Y = "Zk";
   private static final String O_GET_QUEST_NAMES = "Jj";
   private static final String O_GET_SKILL_NAMES = "Yh";
   private static final String O_GET_SKILL_LEVELS = "Ri";
@@ -31,16 +33,25 @@ public class ClientPatcher extends ClassVisitor {
 
   @Override
   public void visitEnd() {
-//    {
-//      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getRegionX", "()I", null, null);
-//      mv.visitCode();
-//      mv.visitVarInsn(ALOAD, 0);
-//      mv.visitFieldInsn(GETSTATIC, "client", "vi", "I");
-//      mv.visitInsn(IRETURN);
-//      mv.visitMaxs(2, 1);
-//      mv.visitEnd();
-//    }
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getRegionX", "()I", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_REGION_X, "I");
+      mv.visitInsn(IRETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
 
+    {
+      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getRegionY", "()I", null, null);
+      mv.visitCode();
+      mv.visitVarInsn(ALOAD, 0);
+      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_REGION_Y, "I");
+      mv.visitInsn(IRETURN);
+      mv.visitMaxs(2, 1);
+      mv.visitEnd();
+    }
 
     {
       final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getLocalRegionX", "()I", null, null);

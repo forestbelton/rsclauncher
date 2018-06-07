@@ -23,6 +23,8 @@
 |W              |jagexLogo        |
 |kk             |localRegionX     |
 |lc             |localRegionY     |
+|Ed             |regionX          |
+|Zk             |regionY          |
 
 `nb.class` (`GameCharacter`)
 ==========

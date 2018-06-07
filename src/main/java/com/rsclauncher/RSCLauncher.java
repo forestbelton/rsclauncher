@@ -96,7 +96,9 @@ public class RSCLauncher {
         try {
           Thread.sleep(100);
 
-          final String coordText = String.format("(%d, %d)", client.getLocalRegionX(), client.getLocalRegionY());
+          final int worldX = client.getRegionX() + client.getLocalRegionX();
+          final int worldY = client.getRegionY() + client.getLocalRegionY();
+          final String coordText = String.format("(%d, %d)", worldX, worldY);
 
           this.coordLabel.setText(coordText);
 
