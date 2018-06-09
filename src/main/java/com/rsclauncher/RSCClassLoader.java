@@ -1,11 +1,11 @@
 package com.rsclauncher;
 
-
+import com.rsclauncher.patcher.ClassPatcher;
 import com.rsclauncher.patcher.ClientPatcher;
 import com.rsclauncher.patcher.GameCharacterPatcher;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
-
-import static org.objectweb.asm.Opcodes.ASM4;
 
 public class RSCClassLoader extends ClassLoader {
 
@@ -42,22 +40,30 @@ public class RSCClassLoader extends ClassLoader {
         final byte[] classBytes = baos.toByteArray();
         baos.close();
 
-        final ClassWriter classWriter = new ClassWriter(0);
-        ClassVisitor classVisitor;
+        final ClassReader classReader = new ClassReader(classBytes);
+        final ClassNode classNode = new ClassNode();
+        classReader.accept(classNode, 0);
 
-        if (className.equals("client")) {
-          classVisitor = new ClientPatcher(ASM4, classWriter);
-        } else if (className.equals("nb")) {
-          classVisitor = new GameCharacterPatcher(ASM4, classWriter);
+        final ClassPatcher patcher;
+        if (classNode.name.equals("client")) {
+          patcher = new ClientPatcher();
+        } else if (classNode.name.equals("nb")) {
+          patcher = new GameCharacterPatcher();
         } else {
-          classVisitor = classWriter;
+          patcher = null;
         }
 
-        final ClassReader classReader = new ClassReader(classBytes);
-        classReader.accept(classVisitor, 0);
+        final ClassNode newClassNode;
+        if (patcher != null) {
+          newClassNode = patcher.patch(classNode);
+        } else {
+          newClassNode = classNode;
+        }
+
+        final ClassWriter classWriter = new ClassWriter(0);
+        newClassNode.accept(classWriter);
 
         final byte[] modifiedClassBytes = classWriter.toByteArray();
-
         classes.put(className, modifiedClassBytes);
       }
     }

@@ -1,11 +1,10 @@
 package com.rsclauncher.patcher;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.tree.*;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class GameCharacterPatcher extends ClassVisitor {
+public class GameCharacterPatcher extends ClassPatcher {
 
   private static final String O_CLASS_NAME = "nb";
   private static final String O_GET_NAME = "d";
@@ -17,100 +16,77 @@ public class GameCharacterPatcher extends ClassVisitor {
   private static final String O_GET_EQUIPPED_ITEMS = "l";
   private static final String O_GET_OVERHEAD_MESSAGE = "q";
 
-  public GameCharacterPatcher(int i, ClassVisitor cv) {
-    super(i, cv);
-  }
-
   @Override
-  public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-    final String[] newInterfaces = new String[] { "com/rsclauncher/api/GameCharacter" };
+  public ClassNode patch(ClassNode classNode) {
+    ClassNode newClassNode = ASMUtils.copyClassNode(classNode);
 
-    cv.visit(version, access, name, signature, superName, newInterfaces);
-  }
+    newClassNode.interfaces.add("com/rsclauncher/api/GameCharacter");
 
-  @Override
-  public void visitEnd() {
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getName", "()Ljava/lang/String;", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME,  O_GET_NAME, "Ljava/lang/String;");
-      mv.visitInsn(ARETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+    MethodNode getName = new MethodNode(ACC_PUBLIC, "getRegionX", "()Ljava/lang/String;", null, null);
+    getName.instructions.add(new VarInsnNode(ALOAD, 0));
+    getName.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_NAME, "Ljava/lang/String;"));
+    getName.instructions.add(new InsnNode(ARETURN));
+    getName.maxStack = 2;
+    getName.maxLocals = 1;
+    newClassNode.methods.add(getName);
 
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getCurrentHealth", "()I", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_CURRENT_HEALTH, "I");
-      mv.visitInsn(IRETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+    MethodNode getCurrentHealth = new MethodNode(ACC_PUBLIC, "getCurrentHealth", "()I", null, null);
+    getCurrentHealth.instructions.add(new VarInsnNode(ALOAD, 0));
+    getCurrentHealth.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_CURRENT_HEALTH, "I"));
+    getCurrentHealth.instructions.add(new InsnNode(IRETURN));
+    getCurrentHealth.maxStack = 2;
+    getCurrentHealth.maxLocals = 1;
+    newClassNode.methods.add(getCurrentHealth);
 
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getMaxHealth", "()I", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_MAX_HEALTH, "I");
-      mv.visitInsn(IRETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+    MethodNode getMaxHealth = new MethodNode(ACC_PUBLIC, "getMaxHealth", "()I", null, null);
+    getMaxHealth.instructions.add(new VarInsnNode(ALOAD, 0));
+    getMaxHealth.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_MAX_HEALTH, "I"));
+    getMaxHealth.instructions.add(new InsnNode(IRETURN));
+    getMaxHealth.maxStack = 2;
+    getMaxHealth.maxLocals = 1;
+    newClassNode.methods.add(getMaxHealth);
 
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getCombatLevel", "()I", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_COMBAT_LEVEL, "I");
-      mv.visitInsn(IRETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+    MethodNode getCombatLevel = new MethodNode(ACC_PUBLIC, "getCombatLevel", "()I", null, null);
+    getCombatLevel.instructions.add(new VarInsnNode(ALOAD, 0));
+    getCombatLevel.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_COMBAT_LEVEL, "I"));
+    getCombatLevel.instructions.add(new InsnNode(IRETURN));
+    getCombatLevel.maxStack = 2;
+    getCombatLevel.maxLocals = 1;
+    newClassNode.methods.add(getCombatLevel);
 
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getDamageTaken", "()I", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_DAMAGE_TAKEN, "I");
-      mv.visitInsn(IRETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+    MethodNode getDamageTaken = new MethodNode(ACC_PUBLIC, "getDamageTaken", "()I", null, null);
+    getDamageTaken.instructions.add(new VarInsnNode(ALOAD, 0));
+    getDamageTaken.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_DAMAGE_TAKEN, "I"));
+    getDamageTaken.instructions.add(new InsnNode(IRETURN));
+    getDamageTaken.maxStack = 2;
+    getDamageTaken.maxLocals = 1;
+    newClassNode.methods.add(getDamageTaken);
 
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getNpcId", "()I", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_NPC_ID, "I");
-      mv.visitInsn(IRETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+    MethodNode getNpcId = new MethodNode(ACC_PUBLIC, "getNpcId", "()I", null, null);
+    getNpcId.instructions.add(new VarInsnNode(ALOAD, 0));
+    getNpcId.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_NPC_ID, "I"));
+    getNpcId.instructions.add(new InsnNode(IRETURN));
+    getNpcId.maxStack = 2;
+    getNpcId.maxLocals = 1;
+    newClassNode.methods.add(getNpcId);
 
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getEquippedItems", "()[I", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_EQUIPPED_ITEMS, "[I");
-      mv.visitInsn(ARETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+    MethodNode getEquippedItems = new MethodNode(ACC_PUBLIC, "getEquippedItems", "()[I", null, null);
+    getEquippedItems.instructions.add(new VarInsnNode(ALOAD, 0));
+    getEquippedItems.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_EQUIPPED_ITEMS, "[I"));
+    getEquippedItems.instructions.add(new InsnNode(ARETURN));
+    getEquippedItems.maxStack = 2;
+    getEquippedItems.maxLocals = 1;
+    newClassNode.methods.add(getEquippedItems);
 
-    {
-      final MethodVisitor mv = cv.visitMethod(ACC_PUBLIC, "getOverheadMessage", "()Ljava/lang/String;", null, null);
-      mv.visitCode();
-      mv.visitVarInsn(ALOAD, 0);
-      mv.visitFieldInsn(GETFIELD, O_CLASS_NAME, O_GET_OVERHEAD_MESSAGE, "Ljava/lang/String;");
-      mv.visitInsn(ARETURN);
-      mv.visitMaxs(2, 1);
-      mv.visitEnd();
-    }
+    MethodNode getOverheadMessage = new MethodNode(ACC_PUBLIC, "getOverheadMessage", "()Ljava/lang/String;", null, null);
+    getOverheadMessage.instructions.add(new VarInsnNode(ALOAD, 0));
+    getOverheadMessage.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_OVERHEAD_MESSAGE, "Ljava/lang/String;"));
+    getOverheadMessage.instructions.add(new InsnNode(ARETURN));
+    getOverheadMessage.maxStack = 2;
+    getOverheadMessage.maxLocals = 1;
+    newClassNode.methods.add(getOverheadMessage);
 
-    cv.visitEnd();
+    return newClassNode;
   }
 
 }
