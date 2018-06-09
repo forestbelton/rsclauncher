@@ -3,9 +3,10 @@
 
 |Obfuscated name|Deobfuscated name|
 |---------------|-----------------|
+|Dg             |clientVersion?   |
 |Jj             |questNames       |
-|Yh             |skillNames       |
-|Gc             |skillNames       |
+|Yh             |skillNamesLong   |
+|Gc             |skillNamesShort  |
 |Ri             |skillLevels      |
 |Vc             |skillExperience  |
 |Ee             |xPosition        |
@@ -25,6 +26,20 @@
 |lc             |localRegionY     |
 |Ed             |regionX          |
 |Zk             |regionY          |
+|Yb             |invItemId?       |
+|sc             |invItemCount?    |
+|ec             |invEquipped?     |
+|dh             |serverUrl        |
+|te             |mouseXHistory?   |
+|xd             |mouseYHistory?   |
+|tg             |gameModels       |
+
+`vb.class`
+==========
+
+|Obfuscated name|Deobfuscated name|
+|---------------|-----------------|
+|p              |sin2048Cache     |
 
 `nb.class` (`GameCharacter`)
 ==========
@@ -94,3 +109,12 @@
 
 `vb.class` (`GameShell`)
 ========================
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|zb             |yaw(0-1023)        |
+|qb             |pitch              |
+|m              |roll               |
+|y              |camX?              |
+|h              |camY?              |
+|tb             |camZ?              |
