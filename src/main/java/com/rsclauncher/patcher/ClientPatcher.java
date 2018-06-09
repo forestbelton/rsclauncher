@@ -21,9 +21,7 @@ public class ClientPatcher extends ClassPatcher {
 
   @Override
   public ClassNode patch(ClassNode classNode) {
-    ClassNode newClassNode = ASMUtils.copyClassNode(classNode);
-
-    newClassNode.interfaces.add("com/rsclauncher/api/Client");
+    classNode.interfaces.add("com/rsclauncher/api/Client");
 
     MethodNode getRegionX = new MethodNode(ACC_PUBLIC, "getRegionX", "()I", null, null);
     getRegionX.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -31,7 +29,7 @@ public class ClientPatcher extends ClassPatcher {
     getRegionX.instructions.add(new InsnNode(IRETURN));
     getRegionX.maxStack = 2;
     getRegionX.maxLocals = 1;
-    newClassNode.methods.add(getRegionX);
+    classNode.methods.add(getRegionX);
 
     MethodNode getRegionY = new MethodNode(ACC_PUBLIC, "getRegionY", "()I", null, null);
     getRegionY.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -39,7 +37,7 @@ public class ClientPatcher extends ClassPatcher {
     getRegionY.instructions.add(new InsnNode(IRETURN));
     getRegionY.maxStack = 2;
     getRegionY.maxLocals = 1;
-    newClassNode.methods.add(getRegionY);
+    classNode.methods.add(getRegionY);
 
     MethodNode getLocalRegionX = new MethodNode(ACC_PUBLIC, "getLocalRegionX", "()I", null, null);
     getLocalRegionX.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -47,7 +45,7 @@ public class ClientPatcher extends ClassPatcher {
     getLocalRegionX.instructions.add(new InsnNode(IRETURN));
     getLocalRegionX.maxStack = 2;
     getLocalRegionX.maxLocals = 1;
-    newClassNode.methods.add(getLocalRegionX);
+    classNode.methods.add(getLocalRegionX);
 
     MethodNode getLocalRegionY = new MethodNode(ACC_PUBLIC, "getLocalRegionY", "()I", null, null);
     getLocalRegionY.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -55,7 +53,7 @@ public class ClientPatcher extends ClassPatcher {
     getLocalRegionY.instructions.add(new InsnNode(IRETURN));
     getLocalRegionY.maxStack = 2;
     getLocalRegionY.maxLocals = 1;
-    newClassNode.methods.add(getLocalRegionY);
+    classNode.methods.add(getLocalRegionY);
 
     MethodNode getQuestNames = new MethodNode(ACC_PUBLIC, "getQuestNames", "()[Ljava/lang/String;", null, null);
     getQuestNames.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -63,7 +61,7 @@ public class ClientPatcher extends ClassPatcher {
     getQuestNames.instructions.add(new InsnNode(ARETURN));
     getQuestNames.maxStack = 2;
     getQuestNames.maxLocals = 1;
-    newClassNode.methods.add(getQuestNames);
+    classNode.methods.add(getQuestNames);
 
     MethodNode getSkillNames = new MethodNode(ACC_PUBLIC, "getSkillNames", "()[Ljava/lang/String;", null, null);
     getSkillNames.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -71,7 +69,7 @@ public class ClientPatcher extends ClassPatcher {
     getSkillNames.instructions.add(new InsnNode(ARETURN));
     getSkillNames.maxStack = 2;
     getSkillNames.maxLocals = 1;
-    newClassNode.methods.add(getSkillNames);
+    classNode.methods.add(getSkillNames);
 
     MethodNode getSkillLevels = new MethodNode(ACC_PUBLIC, "getSkillLevels", "()[I", null, null);
     getSkillLevels.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -79,7 +77,7 @@ public class ClientPatcher extends ClassPatcher {
     getSkillLevels.instructions.add(new InsnNode(ARETURN));
     getSkillLevels.maxStack = 2;
     getSkillLevels.maxLocals = 1;
-    newClassNode.methods.add(getSkillLevels);
+    classNode.methods.add(getSkillLevels);
 
     MethodNode getSkillExperiences = new MethodNode(ACC_PUBLIC, "getSkillExperiences", "()[I", null, null);
     getSkillExperiences.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -87,7 +85,7 @@ public class ClientPatcher extends ClassPatcher {
     getSkillExperiences.instructions.add(new InsnNode(ARETURN));
     getSkillExperiences.maxStack = 2;
     getSkillExperiences.maxLocals = 1;
-    newClassNode.methods.add(getSkillExperiences);
+    classNode.methods.add(getSkillExperiences);
 
     MethodNode getLocalPlayer = new MethodNode(ACC_PUBLIC, "getLocalPlayer", "()Lcom/rsclauncher/api/GameCharacter;", null, null);
     getLocalPlayer.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -95,7 +93,7 @@ public class ClientPatcher extends ClassPatcher {
     getLocalPlayer.instructions.add(new InsnNode(ARETURN));
     getLocalPlayer.maxStack = 2;
     getLocalPlayer.maxLocals = 1;
-    newClassNode.methods.add(getLocalPlayer);
+    classNode.methods.add(getLocalPlayer);
 
     MethodNode getNearbyPlayers = new MethodNode(ACC_PUBLIC, "getNearbyPlayers", "()[Lcom/rsclauncher/api/GameCharacter;", null, null);
     getNearbyPlayers.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -103,7 +101,7 @@ public class ClientPatcher extends ClassPatcher {
     getNearbyPlayers.instructions.add(new InsnNode(ARETURN));
     getNearbyPlayers.maxStack = 2;
     getNearbyPlayers.maxLocals = 1;
-    newClassNode.methods.add(getNearbyPlayers);
+    classNode.methods.add(getNearbyPlayers);
 
     MethodNode getNpcs = new MethodNode(ACC_PUBLIC, "getNpcs", "()[Lcom/rsclauncher/api/GameCharacter;", null, null);
     getNpcs.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -111,9 +109,9 @@ public class ClientPatcher extends ClassPatcher {
     getNpcs.instructions.add(new InsnNode(ARETURN));
     getNpcs.maxStack = 2;
     getNpcs.maxLocals = 1;
-    newClassNode.methods.add(getNpcs);
+    classNode.methods.add(getNpcs);
 
-    return newClassNode;
+    return classNode;
   }
 
 }

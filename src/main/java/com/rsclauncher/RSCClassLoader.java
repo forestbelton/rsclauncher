@@ -1,5 +1,6 @@
 package com.rsclauncher;
 
+import com.rsclauncher.patcher.ASMUtils;
 import com.rsclauncher.patcher.ClassPatcher;
 import com.rsclauncher.patcher.ClientPatcher;
 import com.rsclauncher.patcher.GameCharacterPatcher;
@@ -55,7 +56,7 @@ public class RSCClassLoader extends ClassLoader {
 
         final ClassNode newClassNode;
         if (patcher != null) {
-          newClassNode = patcher.patch(classNode);
+          newClassNode = patcher.patch(ASMUtils.copyClassNode(classNode));
         } else {
           newClassNode = classNode;
         }

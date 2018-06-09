@@ -18,9 +18,7 @@ public class GameCharacterPatcher extends ClassPatcher {
 
   @Override
   public ClassNode patch(ClassNode classNode) {
-    ClassNode newClassNode = ASMUtils.copyClassNode(classNode);
-
-    newClassNode.interfaces.add("com/rsclauncher/api/GameCharacter");
+    classNode.interfaces.add("com/rsclauncher/api/GameCharacter");
 
     MethodNode getName = new MethodNode(ACC_PUBLIC, "getRegionX", "()Ljava/lang/String;", null, null);
     getName.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -28,7 +26,7 @@ public class GameCharacterPatcher extends ClassPatcher {
     getName.instructions.add(new InsnNode(ARETURN));
     getName.maxStack = 2;
     getName.maxLocals = 1;
-    newClassNode.methods.add(getName);
+    classNode.methods.add(getName);
 
     MethodNode getCurrentHealth = new MethodNode(ACC_PUBLIC, "getCurrentHealth", "()I", null, null);
     getCurrentHealth.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -36,7 +34,7 @@ public class GameCharacterPatcher extends ClassPatcher {
     getCurrentHealth.instructions.add(new InsnNode(IRETURN));
     getCurrentHealth.maxStack = 2;
     getCurrentHealth.maxLocals = 1;
-    newClassNode.methods.add(getCurrentHealth);
+    classNode.methods.add(getCurrentHealth);
 
     MethodNode getMaxHealth = new MethodNode(ACC_PUBLIC, "getMaxHealth", "()I", null, null);
     getMaxHealth.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -44,7 +42,7 @@ public class GameCharacterPatcher extends ClassPatcher {
     getMaxHealth.instructions.add(new InsnNode(IRETURN));
     getMaxHealth.maxStack = 2;
     getMaxHealth.maxLocals = 1;
-    newClassNode.methods.add(getMaxHealth);
+    classNode.methods.add(getMaxHealth);
 
     MethodNode getCombatLevel = new MethodNode(ACC_PUBLIC, "getCombatLevel", "()I", null, null);
     getCombatLevel.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -52,7 +50,7 @@ public class GameCharacterPatcher extends ClassPatcher {
     getCombatLevel.instructions.add(new InsnNode(IRETURN));
     getCombatLevel.maxStack = 2;
     getCombatLevel.maxLocals = 1;
-    newClassNode.methods.add(getCombatLevel);
+    classNode.methods.add(getCombatLevel);
 
     MethodNode getDamageTaken = new MethodNode(ACC_PUBLIC, "getDamageTaken", "()I", null, null);
     getDamageTaken.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -60,7 +58,7 @@ public class GameCharacterPatcher extends ClassPatcher {
     getDamageTaken.instructions.add(new InsnNode(IRETURN));
     getDamageTaken.maxStack = 2;
     getDamageTaken.maxLocals = 1;
-    newClassNode.methods.add(getDamageTaken);
+    classNode.methods.add(getDamageTaken);
 
     MethodNode getNpcId = new MethodNode(ACC_PUBLIC, "getNpcId", "()I", null, null);
     getNpcId.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -68,7 +66,7 @@ public class GameCharacterPatcher extends ClassPatcher {
     getNpcId.instructions.add(new InsnNode(IRETURN));
     getNpcId.maxStack = 2;
     getNpcId.maxLocals = 1;
-    newClassNode.methods.add(getNpcId);
+    classNode.methods.add(getNpcId);
 
     MethodNode getEquippedItems = new MethodNode(ACC_PUBLIC, "getEquippedItems", "()[I", null, null);
     getEquippedItems.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -76,7 +74,7 @@ public class GameCharacterPatcher extends ClassPatcher {
     getEquippedItems.instructions.add(new InsnNode(ARETURN));
     getEquippedItems.maxStack = 2;
     getEquippedItems.maxLocals = 1;
-    newClassNode.methods.add(getEquippedItems);
+    classNode.methods.add(getEquippedItems);
 
     MethodNode getOverheadMessage = new MethodNode(ACC_PUBLIC, "getOverheadMessage", "()Ljava/lang/String;", null, null);
     getOverheadMessage.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -84,9 +82,9 @@ public class GameCharacterPatcher extends ClassPatcher {
     getOverheadMessage.instructions.add(new InsnNode(ARETURN));
     getOverheadMessage.maxStack = 2;
     getOverheadMessage.maxLocals = 1;
-    newClassNode.methods.add(getOverheadMessage);
+    classNode.methods.add(getOverheadMessage);
 
-    return newClassNode;
+    return classNode;
   }
 
 }
