@@ -31,6 +31,7 @@ public interface Client {
 
   public GameCharacter[] getNpcs();
 
+  public void addMessage(int a, String b, int c, String d, int e, String f, String g, boolean h);
 
 
 }

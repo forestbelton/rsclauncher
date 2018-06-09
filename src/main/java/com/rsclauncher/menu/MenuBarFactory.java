@@ -18,7 +18,8 @@ public class MenuBarFactory {
         new PrintStaticVariable(classLoader),
         new PrintClientData((Client) client),
         new SetClientVariable(client),
-        new PrintClientVariables(client, classLoader)
+        new PrintClientVariables(client, classLoader),
+        new TestAction((Client) client)
     );
 
     menuItems.forEach(menuItem -> {

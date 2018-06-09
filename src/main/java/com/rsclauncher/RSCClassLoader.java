@@ -1,9 +1,6 @@
 package com.rsclauncher;
 
-import com.rsclauncher.patcher.ASMUtils;
-import com.rsclauncher.patcher.ClassPatcher;
-import com.rsclauncher.patcher.ClientPatcher;
-import com.rsclauncher.patcher.GameCharacterPatcher;
+import com.rsclauncher.patcher.*;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
@@ -50,6 +47,10 @@ public class RSCClassLoader extends ClassLoader {
           patcher = new ClientPatcher();
         } else if (classNode.name.equals("nb")) {
           patcher = new GameCharacterPatcher();
+        } else if (classNode.name.equals("vb")) {
+          patcher = new GameShellPatcher();
+        } else if (classNode.name.equals("ab")) {
+          patcher = new abPatcher();
         } else {
           patcher = null;
         }

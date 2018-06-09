@@ -111,6 +111,22 @@ public class ClientPatcher extends ClassPatcher {
     getNpcs.maxLocals = 1;
     classNode.methods.add(getNpcs);
 
+    MethodNode addMessage = new MethodNode(ACC_PUBLIC, "addMessage", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;Ljava/lang/String;Z)V", null, null);
+    addMessage.instructions.add(new VarInsnNode(ALOAD, 0));
+    addMessage.instructions.add(new VarInsnNode(ILOAD, 1));
+    addMessage.instructions.add(new VarInsnNode(ALOAD, 2));
+    addMessage.instructions.add(new VarInsnNode(ILOAD, 3));
+    addMessage.instructions.add(new VarInsnNode(ALOAD, 4));
+    addMessage.instructions.add(new VarInsnNode(ILOAD, 5));
+    addMessage.instructions.add(new VarInsnNode(ALOAD, 6));
+    addMessage.instructions.add(new VarInsnNode(ALOAD, 7));
+    addMessage.instructions.add(new VarInsnNode(ILOAD, 8));
+    addMessage.instructions.add(new MethodInsnNode(INVOKEVIRTUAL, "client", "a", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;Ljava/lang/String;Z)V", false));
+    addMessage.instructions.add(new InsnNode(RETURN));
+    addMessage.maxStack = 10;
+    addMessage.maxLocals = 9;
+    classNode.methods.add(addMessage);
+
     return classNode;
   }
 
