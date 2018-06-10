@@ -51,6 +51,8 @@ public class RSCClassLoader extends ClassLoader {
           patcher = new GameShellPatcher();
         } else if (classNode.name.equals("ab")) {
           patcher = new abPatcher();
+        } else if (classNode.name.equals("mb")) {
+          patcher = new ClientStreamPatcher();
         } else {
           patcher = null;
         }
