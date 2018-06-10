@@ -1,6 +1,11 @@
 package com.rsclauncher.menu;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -56,23 +61,61 @@ public class PrintStaticVariable implements MenuItem {
       final String className = classNameField.getText();
       final String fieldName = fieldNameField.getText();
 
-      System.out.println(className + "::" + fieldName);
+      System.out.print(className + "::" + fieldName + " = ");
 
-      final Class<?> abClass = classLoader.loadClass(className);
-      final Field yField = abClass.getDeclaredField(fieldName);
+      final Class<?> aClass = classLoader.loadClass(className);
+      final Field aField = aClass.getDeclaredField(fieldName);
+      aField.setAccessible(true);
 
-      yField.setAccessible(true);
-      final String[] yArray = (String[])yField.get(null);
+      final JsonFactory jsonFactory = new JsonFactory();
+      final JsonGenerator jsonGenerator = jsonFactory.createGenerator(System.out);
 
-      System.out.println(yArray.length);
-      for (int i = 0; i < yArray.length; ++i) {
-        if (yArray[i] != null) {
-          System.out.println("[" + i + "] \"" + yArray[i] + "\"");
+      final DefaultPrettyPrinter prettyPrinter = new DefaultPrettyPrinter();
+      prettyPrinter.indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
+      jsonGenerator.setPrettyPrinter(prettyPrinter);
+
+      for (TypeHandler handler : TypeHandler.values()) {
+        if (!aField.getType().isAssignableFrom(handler.typeClass())) {
+          continue;
         }
-      }
 
+        handler.render(aField.get(null), jsonGenerator);
+        jsonGenerator.flush();
+        System.out.println("");
+
+        return;
+      }
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     }
+  }
+
+  private enum TypeHandler {
+    STRING_ARRAY {
+      @Override
+      public Class<?> typeClass() {
+        return String[].class;
+      }
+
+      @Override
+      public void render(Object field, JsonGenerator generator) throws IOException {
+        final String[] arrayField = (String[])field;
+
+        generator.writeStartArray();
+
+        for (String str : arrayField) {
+          if (str == null) {
+            generator.writeNull();
+          } else {
+            generator.writeString(str);
+          }
+        }
+
+        generator.writeEndArray();
+      }
+    };
+
+    public abstract Class<?> typeClass();
+    public abstract void render(Object field, JsonGenerator generator) throws IOException;
   }
 }
