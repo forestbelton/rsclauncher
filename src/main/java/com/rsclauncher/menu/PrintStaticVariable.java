@@ -91,6 +91,51 @@ public class PrintStaticVariable implements MenuItem {
   }
 
   private enum TypeHandler {
+    BOOLEAN {
+      @Override
+      public Class<?> typeClass() {
+        return boolean.class;
+      }
+
+      @Override
+      public void render(Object field, JsonGenerator generator) throws IOException {
+        final Boolean booleanValue = (Boolean)field;
+        generator.writeBoolean(booleanValue);
+      }
+    },
+    INT {
+      @Override
+      public Class<?> typeClass() {
+        return int.class;
+      }
+
+      @Override
+      public void render(Object field, JsonGenerator generator) throws IOException {
+        final Number number = (Number)field;
+        final int intValue = number.intValue();
+
+        generator.writeNumber(intValue);
+      }
+    },
+    INT_ARRAY {
+      @Override
+      public Class<?> typeClass() {
+        return int[].class;
+      }
+
+      @Override
+      public void render(Object field, JsonGenerator generator) throws IOException {
+        final int[] arrayField = (int[])field;
+
+        generator.writeStartArray();
+
+        for (int i : arrayField) {
+          generator.writeNumber(i);
+        }
+
+        generator.writeEndArray();
+      }
+    },
     STRING_ARRAY {
       @Override
       public Class<?> typeClass() {
