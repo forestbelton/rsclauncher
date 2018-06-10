@@ -118,3 +118,6 @@
 |y              |camX?              |
 |h              |camY?              |
 |tb             |camZ?              |
+
+`t.class` (`Sprite`)
+====================
