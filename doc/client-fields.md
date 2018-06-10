@@ -104,6 +104,10 @@
 `mb.class` (`ClientStream`)
 ===========================
 
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|ab             |isClosed           |
+
 `ja.class` (`Packet`)
 =====================
 

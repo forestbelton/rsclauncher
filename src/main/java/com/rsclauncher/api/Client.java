@@ -2,35 +2,32 @@ package com.rsclauncher.api;
 
 public interface Client {
 
-  public int getRegionX();
+  int getRegionX();
 
-  public int getRegionY();
+  int getRegionY();
 
-  public int getPlane();
+  int getPlane();
 
-  public int[] getEquippedItems();
+  int[] getEquippedItems();
 
+  int getLocalRegionX();
 
+  int getLocalRegionY();
 
+  String[] getQuestNames();
 
-  public int getLocalRegionX();
+  String[] getSkillNames();
 
-  public int getLocalRegionY();
+  int[] getSkillLevels();
 
-  public String[] getQuestNames();
+  int[] getSkillExperiences();
 
-  public String[] getSkillNames();
+  GameCharacter getLocalPlayer();
 
-  public int[] getSkillLevels();
+  GameCharacter[] getNearbyPlayers();
 
-  public int[] getSkillExperiences();
+  GameCharacter[] getNpcs();
 
-  public GameCharacter getLocalPlayer();
-
-  public GameCharacter[] getNearbyPlayers();
-
-  public GameCharacter[] getNpcs();
-
-
-
+  void addMessage(int crownId, String content, int messageType, String target, int unknown,
+      String colorOverride, String targetClan, boolean forceShow);
 }
