@@ -2,6 +2,8 @@ package com.rsclauncher.menu;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.rsclauncher.util.FieldFormatter;
+import com.rsclauncher.util.JsonGeneratorFactory;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,9 +42,7 @@ public class DumpZVars implements MenuItem {
         }
       }
 
-      final JsonFactory factory = new JsonFactory();
-      final JsonGenerator generator = factory.createGenerator(System.out);
-
+      final JsonGenerator generator = JsonGeneratorFactory.createGenerator();
       generator.writeStartObject();
 
       for (String fileName : classFiles) {
@@ -64,13 +64,13 @@ public class DumpZVars implements MenuItem {
           }
 
           zField.setAccessible(true);
-          final String[] z = (String[]) zField.get(null);
 
-          generator.writeArrayFieldStart(className);
-          for (String zString : z) {
-            generator.writeString(zString);
-          }
-          generator.writeEndArray();
+          generator.writeFieldName(className);
+          FieldFormatter.STRING_ARRAY.render(
+              zField.get(null),
+              generator
+          );
+
         } catch (NoSuchFieldException ex) {}
       }
 

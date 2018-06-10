@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.rsclauncher.util.FieldFormatter;
+import com.rsclauncher.util.JsonGeneratorFactory;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 import javax.swing.Box;
@@ -67,13 +68,7 @@ public class PrintStaticVariable implements MenuItem {
       final Field aField = aClass.getDeclaredField(fieldName);
       aField.setAccessible(true);
 
-      final JsonFactory jsonFactory = new JsonFactory();
-      final JsonGenerator jsonGenerator = jsonFactory.createGenerator(System.out);
-
-      final DefaultPrettyPrinter prettyPrinter = new DefaultPrettyPrinter();
-      prettyPrinter.indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
-      jsonGenerator.setPrettyPrinter(prettyPrinter);
-
+      final JsonGenerator jsonGenerator = JsonGeneratorFactory.createGenerator();
       for (FieldFormatter handler : FieldFormatter.values()) {
         if (!aField.getType().isAssignableFrom(handler.typeClass())) {
           continue;
