@@ -19,7 +19,7 @@ public class TestAction implements MenuItem {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    client.addMessage(1, "yo", 2, "yo", 3, "yo", "yo", false);
+    client.addMessage(0, "A", 2, "B", 3, null, "C", false);
   }
 
 }
