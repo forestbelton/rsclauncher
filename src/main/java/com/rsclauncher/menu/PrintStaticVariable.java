@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.rsclauncher.util.FieldFormatter;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -74,7 +74,7 @@ public class PrintStaticVariable implements MenuItem {
       prettyPrinter.indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
       jsonGenerator.setPrettyPrinter(prettyPrinter);
 
-      for (TypeHandler handler : TypeHandler.values()) {
+      for (FieldFormatter handler : FieldFormatter.values()) {
         if (!aField.getType().isAssignableFrom(handler.typeClass())) {
           continue;
         }
@@ -88,79 +88,5 @@ public class PrintStaticVariable implements MenuItem {
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     }
-  }
-
-  private enum TypeHandler {
-    BOOLEAN {
-      @Override
-      public Class<?> typeClass() {
-        return boolean.class;
-      }
-
-      @Override
-      public void render(Object field, JsonGenerator generator) throws IOException {
-        final Boolean booleanValue = (Boolean)field;
-        generator.writeBoolean(booleanValue);
-      }
-    },
-    INT {
-      @Override
-      public Class<?> typeClass() {
-        return int.class;
-      }
-
-      @Override
-      public void render(Object field, JsonGenerator generator) throws IOException {
-        final Number number = (Number)field;
-        final int intValue = number.intValue();
-
-        generator.writeNumber(intValue);
-      }
-    },
-    INT_ARRAY {
-      @Override
-      public Class<?> typeClass() {
-        return int[].class;
-      }
-
-      @Override
-      public void render(Object field, JsonGenerator generator) throws IOException {
-        final int[] arrayField = (int[])field;
-
-        generator.writeStartArray();
-
-        for (int i : arrayField) {
-          generator.writeNumber(i);
-        }
-
-        generator.writeEndArray();
-      }
-    },
-    STRING_ARRAY {
-      @Override
-      public Class<?> typeClass() {
-        return String[].class;
-      }
-
-      @Override
-      public void render(Object field, JsonGenerator generator) throws IOException {
-        final String[] arrayField = (String[])field;
-
-        generator.writeStartArray();
-
-        for (String str : arrayField) {
-          if (str == null) {
-            generator.writeNull();
-          } else {
-            generator.writeString(str);
-          }
-        }
-
-        generator.writeEndArray();
-      }
-    };
-
-    public abstract Class<?> typeClass();
-    public abstract void render(Object field, JsonGenerator generator) throws IOException;
   }
 }
