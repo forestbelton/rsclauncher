@@ -83,9 +83,14 @@
 `ia.class` (`World`)
 =======
 
-|Obfuscated name|Deobfuscated name  |
-|---------------|-------------------|
-|               |                   |
+|Obfuscated name|Deobfuscated name   |
+|---------------|--------------------|
+|ab             |landscapePack       |
+|h              |membersLandscapePack|
+|pb             |mapPack             |
+|L              |membersMapPack      |
+|ib             |terrainHeight       |
+|lb             |terrainColor        |
 
 `sb.class` (`GameModel`)
 ==========
