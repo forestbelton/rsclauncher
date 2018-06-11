@@ -53,6 +53,12 @@ public class RSCClassLoader extends ClassLoader {
           patcher = new abPatcher();
         } else if (classNode.name.equals("mb")) {
           patcher = new ClientStreamPatcher();
+        } else if (classNode.name.equals("ub")) {
+          patcher = new ubPatcher();
+        } else if (classNode.name.equals("da")) {
+          patcher = new daPatcher();
+        } else if (classNode.name.equals("wb")) {
+          patcher = new wbPatcher();
         } else {
           patcher = null;
         }
