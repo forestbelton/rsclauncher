@@ -22,8 +22,6 @@ public class ubPatcher extends ClassPatcher {
         newInstructions.add(new MethodInsnNode(INVOKESTATIC, "com/rsclauncher/internal/ResourceUtils", "print", "(IILjava/lang/String;I)V", false));
 
         methodNode.instructions.insert(newInstructions);
-//        methodNode.maxStack += 4;
-//        methodNode.maxLocals += 1;
       }
     }
 
