@@ -1,9 +1,6 @@
 package com.rsclauncher.menu;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.util.DefaultIndenter;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.rsclauncher.util.FieldFormatter;
 import com.rsclauncher.util.JsonGeneratorFactory;
 import java.awt.event.ActionEvent;
@@ -66,11 +63,13 @@ public class PrintStaticVariable implements MenuItem {
 
       final Class<?> aClass = classLoader.loadClass(className);
       final Field aField = aClass.getDeclaredField(fieldName);
+      final Class<?> fieldType = aField.getType();
+
       aField.setAccessible(true);
 
       final JsonGenerator jsonGenerator = JsonGeneratorFactory.createGenerator();
       for (FieldFormatter handler : FieldFormatter.values()) {
-        if (!aField.getType().isAssignableFrom(handler.typeClass())) {
+        if (!handler.typeClass().isAssignableFrom(fieldType)) {
           continue;
         }
 

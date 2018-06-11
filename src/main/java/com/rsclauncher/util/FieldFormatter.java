@@ -71,6 +71,17 @@ public enum FieldFormatter {
 
       generator.writeEndArray();
     }
+  },
+  OBJECT {
+    @Override
+    public Class<?> typeClass() {
+      return Object.class;
+    }
+
+    @Override
+    public void render(Object field, JsonGenerator generator) throws IOException {
+      generator.writeString(field.toString());
+    }
   };
 
   public abstract Class<?> typeClass();
