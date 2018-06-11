@@ -14,13 +14,13 @@ public class MenuBarFactory {
     final JMenu debugMenu = new JMenu("Debug");
 
     final List<MenuItem> menuItems = Arrays.asList(
-        new PrintSceneVariables(client, classLoader),
         new PrintStaticVariable(classLoader),
+        new PrintSceneVariables(client, classLoader),
         new PrintClientData((Client) client),
         new SetClientVariable(client),
         new PrintClientVariables(client, classLoader),
         new DumpZVars(classLoader),
-        new TestAction((Client) client)
+        new InjectClientMessage((Client) client)
     );
 
     menuItems.forEach(menuItem -> {

@@ -125,3 +125,21 @@
 
 `t.class` (`Sprite`)
 ====================
+
+`ub.class`
+==========
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|b              |actions            |
+|g              |modelNames         |
+
+`ba.class` (BZState)
+====================
+
+`bc.class`
+====================
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|b              |contentHashes      |

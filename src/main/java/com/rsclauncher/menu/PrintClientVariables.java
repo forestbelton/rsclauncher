@@ -21,7 +21,7 @@ public class PrintClientVariables implements MenuItem {
 
   @Override
   public String title() {
-    return "Print scene variables";
+    return "Print client variables";
   }
 
   @Override

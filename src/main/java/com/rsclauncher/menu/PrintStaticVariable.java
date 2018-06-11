@@ -1,5 +1,8 @@
 package com.rsclauncher.menu;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.rsclauncher.util.FieldFormatter;
+import com.rsclauncher.util.JsonGeneratorFactory;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 import javax.swing.Box;
@@ -56,21 +59,26 @@ public class PrintStaticVariable implements MenuItem {
       final String className = classNameField.getText();
       final String fieldName = fieldNameField.getText();
 
-      System.out.println(className + "::" + fieldName);
+      System.out.print(className + "::" + fieldName + " = ");
 
-      final Class<?> abClass = classLoader.loadClass(className);
-      final Field yField = abClass.getDeclaredField(fieldName);
+      final Class<?> aClass = classLoader.loadClass(className);
+      final Field aField = aClass.getDeclaredField(fieldName);
+      final Class<?> fieldType = aField.getType();
 
-      yField.setAccessible(true);
-      final String[] yArray = (String[])yField.get(null);
+      aField.setAccessible(true);
 
-      System.out.println(yArray.length);
-      for (int i = 0; i < yArray.length; ++i) {
-        if (yArray[i] != null) {
-          System.out.println("[" + i + "] \"" + yArray[i] + "\"");
+      final JsonGenerator jsonGenerator = JsonGeneratorFactory.createGenerator();
+      for (FieldFormatter handler : FieldFormatter.values()) {
+        if (!handler.typeClass().isAssignableFrom(fieldType)) {
+          continue;
         }
-      }
 
+        handler.render(aField.get(null), jsonGenerator);
+        jsonGenerator.flush();
+        System.out.println("");
+
+        return;
+      }
     } catch (Exception ex) {
       ex.printStackTrace(System.err);
     }
