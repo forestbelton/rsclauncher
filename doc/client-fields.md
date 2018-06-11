@@ -136,3 +136,10 @@
 
 `ba.class` (BZState)
 ====================
+
+`bc.class`
+====================
+
+|Obfuscated name|Deobfuscated name  |
+|---------------|-------------------|
+|b              |contentHashes      |
