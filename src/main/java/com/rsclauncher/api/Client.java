@@ -30,4 +30,11 @@ public interface Client {
 
   void addMessage(int crownId, String content, int messageType, String target, int unknown,
       String colorOverride, String targetClan, boolean forceShow);
+
+
+  // Panels
+  Panel getWelcomePanel();
+
+  int getWelcomePanelClickControl();
+
 }

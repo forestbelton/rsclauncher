@@ -20,7 +20,7 @@ public class MenuBarFactory {
         new SetClientVariable(client),
         new PrintClientVariables(client, classLoader),
         new DumpZVars(classLoader),
-        new InjectClientMessage((Client) client)
+        new TestAction((Client) client)
     );
 
     menuItems.forEach(menuItem -> {

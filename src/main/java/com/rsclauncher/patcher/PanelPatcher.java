@@ -4,10 +4,26 @@ import org.objectweb.asm.tree.*;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class abPatcher extends ClassPatcher {
+public class PanelPatcher extends ClassPatcher {
+
+  private static final String O_CLASS_NAME = "ab";
+  private static final String O_CONTROL_CLICKED = "m";
 
   @Override
   public ClassNode patch(ClassNode classNode) {
+    classNode.interfaces.add("com/rsclauncher/api/Panel");
+
+    MethodNode setControlClicked = new MethodNode(ACC_PUBLIC, "setControlClicked", "(I)V", null, null);
+    setControlClicked.instructions.add(new VarInsnNode(ALOAD, 0));
+    setControlClicked.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_CONTROL_CLICKED, "[Z"));
+    setControlClicked.instructions.add(new VarInsnNode(ILOAD, 1));
+    setControlClicked.instructions.add(new InsnNode(ICONST_1));
+    setControlClicked.instructions.add(new InsnNode(BASTORE));
+    setControlClicked.instructions.add(new InsnNode(RETURN));
+    setControlClicked.maxStack = 3;
+    setControlClicked.maxLocals = 2;
+    classNode.methods.add(setControlClicked);
+
     for (int i = 0; i < classNode.methods.size(); i++) {
       MethodNode methodNode = classNode.methods.get(i);
 

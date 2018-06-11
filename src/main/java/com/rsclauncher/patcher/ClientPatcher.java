@@ -19,6 +19,9 @@ public class ClientPatcher extends ClassPatcher {
   private static final String O_GET_NEARBY_PLAYERS = "Nj";
   private static final String O_GET_NPCS = "Rg";
 
+  private static final String O_GET_WELCOME_PANEL = "ff";
+  private static final String O_GET_WELCOME_PANEL_CLICK_CONTROL = "xc";
+
   @Override
   public ClassNode patch(ClassNode classNode) {
     classNode.interfaces.add("com/rsclauncher/api/Client");
@@ -126,6 +129,22 @@ public class ClientPatcher extends ClassPatcher {
     addMessage.maxStack = 10;
     addMessage.maxLocals = 9;
     classNode.methods.add(addMessage);
+
+    MethodNode getWelcomePanel = new MethodNode(ACC_PUBLIC, "getWelcomePanel", "()Lcom/rsclauncher/api/Panel;", null, null);
+    getWelcomePanel.instructions.add(new VarInsnNode(ALOAD, 0));
+    getWelcomePanel.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_WELCOME_PANEL, "Lab;"));
+    getWelcomePanel.instructions.add(new InsnNode(ARETURN));
+    getWelcomePanel.maxStack = 2;
+    getWelcomePanel.maxLocals = 1;
+    classNode.methods.add(getWelcomePanel);
+
+    MethodNode getWelcomePanelClickControl = new MethodNode(ACC_PUBLIC, "getWelcomePanelClickControl", "()I", null, null);
+    getWelcomePanelClickControl.instructions.add(new VarInsnNode(ALOAD, 0));
+    getWelcomePanelClickControl.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_WELCOME_PANEL_CLICK_CONTROL, "I"));
+    getWelcomePanelClickControl.instructions.add(new InsnNode(IRETURN));
+    getWelcomePanelClickControl.maxStack = 2;
+    getWelcomePanelClickControl.maxLocals = 1;
+    classNode.methods.add(getWelcomePanelClickControl);
 
     return classNode;
   }
