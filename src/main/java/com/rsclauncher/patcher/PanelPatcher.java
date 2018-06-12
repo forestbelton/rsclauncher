@@ -8,6 +8,7 @@ public class PanelPatcher extends ClassPatcher {
 
   private static final String O_CLASS_NAME = "ab";
   private static final String O_CONTROL_CLICKED = "m";
+  private static final String O_CONTROL_TEXT = "ib";
 
   @Override
   public ClassNode patch(ClassNode classNode) {
@@ -23,6 +24,18 @@ public class PanelPatcher extends ClassPatcher {
     setControlClicked.maxStack = 3;
     setControlClicked.maxLocals = 2;
     classNode.methods.add(setControlClicked);
+
+
+    MethodNode setControlText = new MethodNode(ACC_PUBLIC, "setControlText", "(ILjava/lang/String;)V", null, null);
+    setControlText.instructions.add(new VarInsnNode(ALOAD, 0));
+    setControlText.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_CONTROL_TEXT, "[Ljava/lang/String;"));
+    setControlText.instructions.add(new VarInsnNode(ILOAD, 1));
+    setControlText.instructions.add(new VarInsnNode(ALOAD, 2));
+    setControlText.instructions.add(new InsnNode(AASTORE));
+    setControlText.instructions.add(new InsnNode(RETURN));
+    setControlText.maxStack = 3;
+    setControlText.maxLocals = 3;
+    classNode.methods.add(setControlText);
 
     for (int i = 0; i < classNode.methods.size(); i++) {
       MethodNode methodNode = classNode.methods.get(i);

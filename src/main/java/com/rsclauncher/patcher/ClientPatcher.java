@@ -20,43 +20,22 @@ public class ClientPatcher extends ClassPatcher {
   private static final String O_GET_NPCS = "Rg";
 
   private static final String O_GET_WELCOME_PANEL = "ff";
-  private static final String O_GET_WELCOME_PANEL_CLICK_CONTROL = "xc";
+  private static final String O_GET_WELCOME_CONTINUE = "xc";
+
+  private static final String O_GET_LOGIN_PANEL = "ki";
+  private static final String O_GET_LOGIN_CONTROL_USERNAME = "sj";
+  private static final String O_GET_LOGIN_CONTROL_PASSWORD = "Qd";
+  private static final String O_GET_LOGIN_CONTROL_OK = "ie";
+  private static final String O_GET_LOGIN_CONTROL_CANCEL = "Dh";
 
   @Override
   public ClassNode patch(ClassNode classNode) {
     classNode.interfaces.add("com/rsclauncher/api/Client");
 
-    MethodNode getRegionX = new MethodNode(ACC_PUBLIC, "getRegionX", "()I", null, null);
-    getRegionX.instructions.add(new VarInsnNode(ALOAD, 0));
-    getRegionX.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_REGION_X, "I"));
-    getRegionX.instructions.add(new InsnNode(IRETURN));
-    getRegionX.maxStack = 2;
-    getRegionX.maxLocals = 1;
-    classNode.methods.add(getRegionX);
-
-    MethodNode getRegionY = new MethodNode(ACC_PUBLIC, "getRegionY", "()I", null, null);
-    getRegionY.instructions.add(new VarInsnNode(ALOAD, 0));
-    getRegionY.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_REGION_Y, "I"));
-    getRegionY.instructions.add(new InsnNode(IRETURN));
-    getRegionY.maxStack = 2;
-    getRegionY.maxLocals = 1;
-    classNode.methods.add(getRegionY);
-
-    MethodNode getLocalRegionX = new MethodNode(ACC_PUBLIC, "getLocalRegionX", "()I", null, null);
-    getLocalRegionX.instructions.add(new VarInsnNode(ALOAD, 0));
-    getLocalRegionX.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_LOCAL_REGION_X, "I"));
-    getLocalRegionX.instructions.add(new InsnNode(IRETURN));
-    getLocalRegionX.maxStack = 2;
-    getLocalRegionX.maxLocals = 1;
-    classNode.methods.add(getLocalRegionX);
-
-    MethodNode getLocalRegionY = new MethodNode(ACC_PUBLIC, "getLocalRegionY", "()I", null, null);
-    getLocalRegionY.instructions.add(new VarInsnNode(ALOAD, 0));
-    getLocalRegionY.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_LOCAL_REGION_Y, "I"));
-    getLocalRegionY.instructions.add(new InsnNode(IRETURN));
-    getLocalRegionY.maxStack = 2;
-    getLocalRegionY.maxLocals = 1;
-    classNode.methods.add(getLocalRegionY);
+    classNode.methods.add(createIntGetter("getRegionX", O_CLASS_NAME, O_GET_REGION_X));
+    classNode.methods.add(createIntGetter("getRegionY", O_CLASS_NAME, O_GET_REGION_Y));
+    classNode.methods.add(createIntGetter("getLocalRegionX", O_CLASS_NAME, O_GET_LOCAL_REGION_X));
+    classNode.methods.add(createIntGetter("getLocalRegionY", O_CLASS_NAME, O_GET_LOCAL_REGION_Y));
 
     MethodNode getQuestNames = new MethodNode(ACC_PUBLIC, "getQuestNames", "()[Ljava/lang/String;", null, null);
     getQuestNames.instructions.add(new VarInsnNode(ALOAD, 0));
@@ -130,6 +109,10 @@ public class ClientPatcher extends ClassPatcher {
     addMessage.maxLocals = 9;
     classNode.methods.add(addMessage);
 
+    //
+    // Panels
+    //
+
     MethodNode getWelcomePanel = new MethodNode(ACC_PUBLIC, "getWelcomePanel", "()Lcom/rsclauncher/api/Panel;", null, null);
     getWelcomePanel.instructions.add(new VarInsnNode(ALOAD, 0));
     getWelcomePanel.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_WELCOME_PANEL, "Lab;"));
@@ -138,15 +121,33 @@ public class ClientPatcher extends ClassPatcher {
     getWelcomePanel.maxLocals = 1;
     classNode.methods.add(getWelcomePanel);
 
-    MethodNode getWelcomePanelClickControl = new MethodNode(ACC_PUBLIC, "getWelcomePanelClickControl", "()I", null, null);
-    getWelcomePanelClickControl.instructions.add(new VarInsnNode(ALOAD, 0));
-    getWelcomePanelClickControl.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_WELCOME_PANEL_CLICK_CONTROL, "I"));
-    getWelcomePanelClickControl.instructions.add(new InsnNode(IRETURN));
-    getWelcomePanelClickControl.maxStack = 2;
-    getWelcomePanelClickControl.maxLocals = 1;
-    classNode.methods.add(getWelcomePanelClickControl);
+    classNode.methods.add(createIntGetter("getWelcomeControlContinue", O_CLASS_NAME, O_GET_WELCOME_CONTINUE));
+
+    MethodNode getLoginPanel = new MethodNode(ACC_PUBLIC, "getLoginPanel", "()Lcom/rsclauncher/api/Panel;", null, null);
+    getLoginPanel.instructions.add(new VarInsnNode(ALOAD, 0));
+    getLoginPanel.instructions.add(new FieldInsnNode(GETFIELD, O_CLASS_NAME, O_GET_LOGIN_PANEL, "Lab;"));
+    getLoginPanel.instructions.add(new InsnNode(ARETURN));
+    getLoginPanel.maxStack = 2;
+    getLoginPanel.maxLocals = 1;
+    classNode.methods.add(getLoginPanel);
+    
+    classNode.methods.add(createIntGetter("getLoginControlUsername", O_CLASS_NAME, O_GET_LOGIN_CONTROL_USERNAME));
+    classNode.methods.add(createIntGetter("getLoginControlPassword", O_CLASS_NAME, O_GET_LOGIN_CONTROL_PASSWORD));
+    classNode.methods.add(createIntGetter("getLoginControlOk", O_CLASS_NAME, O_GET_LOGIN_CONTROL_OK));
+    classNode.methods.add(createIntGetter("getLoginControlCancel", O_CLASS_NAME, O_GET_LOGIN_CONTROL_CANCEL));
 
     return classNode;
+  }
+
+  public MethodNode createIntGetter(String methodName, String className, String fieldName) {
+    MethodNode methodNode = new MethodNode(ACC_PUBLIC, methodName, "()I", null, null);
+    methodNode.instructions.add(new VarInsnNode(ALOAD, 0));
+    methodNode.instructions.add(new FieldInsnNode(GETFIELD, className, fieldName, "I"));
+    methodNode.instructions.add(new InsnNode(IRETURN));
+    methodNode.maxStack = 2;
+    methodNode.maxLocals = 1;
+
+    return methodNode;
   }
 
 }

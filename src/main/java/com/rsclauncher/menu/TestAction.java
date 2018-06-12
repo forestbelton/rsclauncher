@@ -19,7 +19,23 @@ public class TestAction implements MenuItem {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    client.getWelcomePanel().setControlClicked(client.getWelcomePanelClickControl());
+    try {
+      client.getWelcomePanel().setControlClicked(client.getWelcomeControlContinue());
+
+      Thread.sleep(1000);
+
+      client.getLoginPanel().setControlText(client.getLoginControlUsername(), "test");
+
+      Thread.sleep(1000);
+
+      client.getLoginPanel().setControlText(client.getLoginControlPassword(), "test");
+
+      Thread.sleep(1000);
+
+      client.getLoginPanel().setControlClicked(client.getLoginControlCancel());
+    } catch (InterruptedException e1) {
+      e1.printStackTrace();
+    }
 
 //    client.addMessage(0, "A", 2, "B", 3, null, "C", false);
   }

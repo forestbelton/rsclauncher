@@ -35,6 +35,16 @@ public interface Client {
   // Panels
   Panel getWelcomePanel();
 
-  int getWelcomePanelClickControl();
+  int getWelcomeControlContinue();
+
+  Panel getLoginPanel();
+
+  int getLoginControlUsername();
+
+  int getLoginControlPassword();
+
+  int getLoginControlOk();
+
+  int getLoginControlCancel();
 
 }
